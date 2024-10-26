@@ -25,112 +25,98 @@ import "./App.css";
           </div>
       </Show>
 */
+const [alternative] = createSignal([
+    {
+        "src": "https://shoutcast.brownrice.com:8002/",
+        "title": "KNCE Taos Radio",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://kathy.torontocast.com:2620/",
+        "title": "1 Pure Alternative",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://jm8n.net:8018/stream",
+        "title": "Radio La Innovadora TV",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://streamconex.com:8134/stream",
+        "title": "Grito de Rock Argentina - Uruguay",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://streamconex.com:8180/stream",
+        "title": "FM LA Marea",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://jm8n.net:8066/stream",
+        "title": "Marimba de Guatemala Radio",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://streamconex.com:8104/stream",
+        "title": "KLA Radio 97.1",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://stream.fm90.hu:8000/",
+        "title": "Campus R\u00e1di\u00f3 FM90",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://cast.radiocast.ch:9000/stream",
+        "title": "RadioFoleja",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://streamconex.com:8118/stream",
+        "title": "La 106.1 FM",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://streamconex.com:8122/stream",
+        "title": "Fm Riel Basavilbaso",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://streamconex.com:8062/stream",
+        "title": "Radio Digital San Luis",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://streamconex.com:8096/stream",
+        "title": "Radio NDR FM 103.9",
+        "image": "covers/default.png"
+    },
+    {
+        "src": "https://media.dominiocreativo.com:8000/",
+        "title": "Radio YSKL 104.1 FM",
+        "image": "covers/default.png"
+    }
+]);
 
-const [stations] = createSignal([
+const [pop] = createSignal([
   {
     title: "Antenne Bayern",
     src: "http://stream.antenne.de:80/antenne",
     image: "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
-  },
+  }
+]);
+const [rock] = createSignal([
   {
     title: "Bayern Rock",
     src: "http://stream.antenne.de:80/rockantenne",
     image: "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
-  },
-  {
-    "src": "http://stream.antenne.de:80/chillout",
-    "title": "ANTENNE BAYERN Chillout (Germany)",
-    "image": "covers/default.png"
-  },
+  }
+]);
+const [misc] = createSignal([
   {
     "src": "https://cp1.sednastream.com:8014/stream",
     "title": "ClubFM Albania",
     "image": "covers/default.png"
-  },
-  {
-    "src": "https://broadcast.radioponiente.org:8038/",
-    "title": "ALMERIA TRENDY FM",
-    "image": "covers/default.png"
-  }
-]);
-const [songs] = createSignal([
-  {
-    title: "Leaning Tower Of Babylon",
-    src: "music/Leaning_Tower_Of_Babylon.mp3",
-    artist: "Various",
-    cover: "covers/Leaning_Towers_Of_Babylon.png"
-  },
-  {
-    title: "Life Jobs Greatest Trial",
-    src: "music/Life_Jobs_Greatest_Trial.mp3",
-    artist: "Various",
-    cover: "covers/Jobs_Greatest_Trial.png"
-  },
-  {
-    title: "Preacher In The End Times",
-    src: "music/Preacher_In_The_End_Times.mp3",
-    artist: "Various",
-    cover: "covers/Preacher_In_The_End_Times.png"
-  },
-  {
-    title: "Red Sea Division",
-    src: "music/Red_Sea_Division.mp3",
-    artist: "Various",
-    cover: "covers/Red_Sea_Division.png"
-  },
-  {
-    title: "Riders Of Revelations",
-    src: "music/Riders_Of_Revelations.mp3",
-    artist: "Various",
-    cover: "covers/Riders_Of_Revelations.png"
-  },
-  {
-    title: "Samsons Roar",
-    src: "music/Samsons_Roar.mp3",
-    artist: "Various",
-    cover: "covers/Lions_Roar.png"
-  },
-  {
-    title: "Temptations",
-    src: "music/Temptations.mp3",
-    artist: "Various",
-    cover: "covers/Touch_Of_Gold.png"
-  },
-  {
-    title: "The Martyr Of North Korea",
-    src: "music/The_Martyr_Of_North_Korea.mp3",
-    artist: "Various",
-    cover: "covers/Martyr_Of_North_Korea.png"
-  },
-  {
-    title: "The Prodigal Sons Journey",
-    src: "music/The_Prodigal_Sons_Journey.mp3",
-    artist: "Various",
-    cover: "covers/Prodigal_Songs_Journey.png"
-  },
-  {
-    title: "Daniel And The Devils Den",
-    src: "music/Daniel_And_The_Devils_Den.mp3",
-    artist: "Various",
-    cover: "covers/The_Devils_Den.png"
-  },
-  {
-    title: "David Slayer Of The Mighty",
-    src: "music/David_Slayer_Of_The_Mighty.mp3",
-    artist: "Various",
-    cover: "covers/David_Slayer_Of_The_Mighty.png"
-  },
-  {
-    title: "Fire And Salt",
-    src: "music/Fire_And_Salt.mp3",
-    artist: "Various",
-    cover: "covers/Fire_And_Salt.png"
-  },
-  {
-    title: "King Sauls Downfall",
-    src: "music/King_Sauls_Downfall.mp3",
-    artist: "Various",
-    cover: "covers/King_Sauls_Downfall.png"
   }
 ]);
 
@@ -163,11 +149,35 @@ function App() {
   const [radioPlay, setRadioPlay] = createSignal(false);
   const [music, SetMusic] = createSignal("");
   // Show Variables
-  const [showMenu, setShowMenu] = createSignal(true);
+  // Genre Variables
+  const [alternativeShow, setAlternativeShow] = createSignal(false);
+  const [bluesShow, setBluesShow] = createSignal(false);
+  const [classicalShow, setClassicalShow] = createSignal(false);
+  const [countryShow, setCountryShow] = createSignal(false);
+  const [easyListeningShow, setEasyListeningShow] = createSignal(false);
+  const [electronicShow, setElectronicShow] = createSignal(false);
+  const [folkShow, setFolkShow] = createSignal(false);
+  const [themesShow, setThemesShow] = createSignal(false);
+  const [rapShow, setRapShow] = createSignal(false);
+  const [inspirationalShow, setInspirationalShow] = createSignal(false);
+  const [internationalShow, setInternationalShow] = createSignal(false);
+  const [jazzShow, setJazzShow] = createSignal(false);
+  const [latinShow, setLatinShow] = createSignal(false);
+  const [metalShow, setMetalShow] = createSignal(false);
+  const [newAgeShow, setNewAgeShow] = createSignal(false);
+  const [decadesShow, setDecadesShow] = createSignal(false);
+  const [popShow, setPopShow] = createSignal(false);
+  const [rbUrbanShow, setRbUrbanShow] = createSignal(false);
+  const [reggaeShow, setReggaeShow] = createSignal(false);
+  const [rockShow, setRockShow] = createSignal(false);
+  const [seasonalHolidayShow, setSeasonalHolidayShow] = createSignal(false);
+  const [soundtracksShow, setSoundtracksShow] = createSignal(false);
+  const [talkShow, setTalkShow] = createSignal(false);
+  const [miscShow, setMiscShow] = createSignal(false);
+
+  // Area Variables
   const [showPlayer, setShowPlayer] = createSignal(false);
-  const [showList, setShowList] = createSignal(false);
-  const [showRadio, setShowRadio] = createSignal(false);
-  const [showLocal, setShowLocal] = createSignal(false);
+  const [showRadio, setShowRadio] = createSignal(true);
 
   const [progress, setProgress] = createSignal(0);
   let audio;
@@ -223,32 +233,66 @@ let url = convertFileSrc(path)
     const music = await invoke('scan_music');
     setLocalMusic(JSON.parse(music));
   }
+  async function clear() {
+    setAlternativeShow(false);
+    setBluesShow(false);
+    setClassicalShow(false);
+    setCountryShow(false);
+    setEasyListeningShow(false);
+    setElectronicShow(false);
+    setFolkShow(false);
+    setThemesShow(false);
+    setRapShow(false);
+    setInspirationalShow(false);
+    setInternationalShow(false);
+    setJazzShow(false);
+    setLatinShow(false);
+    setMetalShow(false);
+    setNewAgeShow(false);
+    setDecadesShow(false);
+    setPopShow(false);
+    setRbUrbanShow(false);
+    setReggaeShow(false);
+    setRockShow(false);
+    setSeasonalHolidayShow(false);
+    setSoundtracksShow(false);
+    setTalkShow(false);
+    setMiscShow(false);
+    setShowRadio(false);
+  }
   return (
     <div id="area">
-      <h2>{localMusic()}</h2>
-      <h2>{localNames()}</h2>
-      <Show when={showMenu()}>
-        <ul><li  onClick={() => {
-          setShowMenu(false);
-          setShowRadio(true);
-        }}><h2>Radio Stations</h2>
-        </li>
-        <li onClick={() => {
-          setShowMenu(false);
-          setShowList(true);
-        }}><h2>Included Songs</h2>
-        </li>
-        <li onClick={() => {
-          setShowMenu(false);
-          setShowLocal(true);
-          genMusic();
-        }}><h2>Local Music</h2></li>
-        </ul>
-      </Show>
       <Show when={showRadio()}>
+        <li onClick={() => {
+          clear();
+          setAlternativeShow(true);
+        }}>
+          <h2>Alternative</h2>
+        </li>
+        <li onClick={() => {
+          clear();
+          setPopShow(true);
+        }}>
+          <h2>Pop</h2>
+        </li>
+        <li onClick={() => {
+          clear();
+          setRockShow(true);
+        }}>
+          <h2>Rock</h2>
+        </li>
+        <li onClick={() => {
+          clear();
+          setMiscShow(true);
+        }}>
+          <h2>Misc</h2>
+        </li>
+
+      </Show>
         <div id="radio">
           <ul>
-            <Index each={stations()}>{(station, index) => <li class="RadioList" onClick={() => {
+            <Show when = {alternativeShow()}>
+            <Index each={alternative()}>{(station, index) => <li class="RadioList" onClick={() => {
               setCover(station().image);
               setSongTitle(station().title);
               setArtist("");
@@ -258,52 +302,53 @@ let url = convertFileSrc(path)
               setRadioPlay(true);
               setShowPlayer(true);
               setPrefix("");
-              read();
-            }}>{station().title}</li>}</Index>
-          </ul>
-        </div>
-      </Show>
-
-      <Show when={showList()}>
-        <div id="list">
-          <ul>
-            <Index each={songs()}>{(song, index) => <li class="SongList" onClick={() => {
-              setCover(song().cover);
-              setSongTitle(song().title);
-              setArtist(song().artist);
-              setSongSrc(song().src);
+              clear();
+            }}><h2>{station().title}</h2></li>}</Index>
+            </Show>
+            <Show when = {popShow()}>
+            <Index each={pop()}>{(station, index) => <li class="RadioList" onClick={() => {
+              setCover(station().image);
+              setSongTitle(station().title);
+              setArtist("");
+              setSongSrc(station().src);
               setPlaying(true);
-              setShowList(false);
-              setShowPlayer(true);
-              setPrefix("By: ");
-            }}>{song().title}</li>}</Index>
-          </ul>
-        </div>
-      </Show>
-      <Show when={showLocal()}>
-        <div id="local">
-          <ul>
-            <Index each={localMusic()}>{(localsong, index) => <button class="LocalList" onClick={() => {
-              setCover("covers/default.png");
-              setSongTitle(localsong().title);
-              setArtist("Unknown");
-              setSongSrc(localsong().src);
-              setShowLocal(false);
+              setShowRadio(false);
+              setRadioPlay(true);
               setShowPlayer(true);
               setPrefix("");
-              test();
-              createEffect(async () => {
-                const audioDir = await tauriPath.audioDir();
-                const path = await tauriPath.join(audioDir, "Fire_And_Salt.mp3");
-                const url = convertFileSrc(path);
-                setAudioSrc(url);
-                setPlaying(true);
-              });
-            }
-            }>{localsong().title}</button>}</Index>
+              clear();
+            }}><h2>{station().title}</h2></li>}</Index>
+            </Show>
+            <Show when = {rockShow()}>
+            <Index each={rock()}>{(station, index) => <li class="RadioList" onClick={() => {
+              setCover(station().image);
+              setSongTitle(station().title);
+              setArtist("");
+              setSongSrc(station().src);
+              setPlaying(true);
+              setShowRadio(false);
+              setRadioPlay(true);
+              setShowPlayer(true);
+              setPrefix("");
+              clear();
+            }}><h2>{station().title}</h2></li>}</Index>
+            </Show>
+            <Show when = {miscShow()}>
+            <Index each={misc()}>{(station, index) => <li class="RadioList" onClick={() => {
+              setCover(station().image);
+              setSongTitle(station().title);
+              setArtist("");
+              setSongSrc(station().src);
+              setPlaying(true);
+              setShowRadio(false);
+              setRadioPlay(true);
+              setShowPlayer(true);
+              setPrefix("");
+              clear();
+            }}>{station().title}</li>}</Index>
+          </Show>
           </ul>
-          </div>
-      </Show>
+        </div>
       
      <Show when={showPlayer()}> 
       <div class="music-player">
@@ -361,7 +406,7 @@ let url = convertFileSrc(path)
                   <td>
                     <div id="menu">
                       <button onClick={() => {
-                        setShowMenu(true);
+                        setShowRadio(true);
                         setShowPlayer(false);
                         setRadioPlay(false);
                       }}>

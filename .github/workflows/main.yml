@@ -55,7 +55,7 @@ jobs:
       - name: add icons
         run: npm run tauri icon Logo.png
         
-      - uses: tauri-apps/tauri-action@v0.5.5
+      - uses: tauri-apps/tauri-action@v0.5.15
         id: tauri
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import random
 
 def parse_pls_file(file_path):
     with open(file_path, 'r') as file:
@@ -15,7 +16,7 @@ def parse_pls_file(file_path):
             if title_match:
                 data['title'] = title_match.group(1).strip()
     
-    data['image'] = 'covers/default.png'
+    data['image'] = 'covers/' + str(random.randint(1, 17)) + '.png'
     return data
 
 def convert_pls_to_json(directory):

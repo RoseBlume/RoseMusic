@@ -1,7 +1,9 @@
-import { createSignal, Index, Show } from "solid-js";
+import { createSignal, Index, Show, createEffect } from "solid-js";
 import { invoke } from "@tauri-apps/api/core";
-//import { readDir, exists, BaseDirectory } from '@tauri-apps/plugin-fs';
+//import { readDir, exists, BaseDirectory, audioDir } from '@tauri-apps/plugin-fs';
 //import { warn, debug, trace, info, error } from '@tauri-apps/plugin-log';
+import { convertFileSrc } from "@tauri-apps/api/core";
+import { path as tauriPath } from '@tauri-apps/api';
 import "./App.css";
 
 /*
@@ -169,7 +171,12 @@ function App() {
 
   const [progress, setProgress] = createSignal(0);
   let audio;
-
+  async function test() {
+    const audioDir = await tauriPath.audioDir();
+    const path = await tauriPath.join(audioDir, "Fire_And_Salt.mp3");
+    const url = convertFileSrc(path);
+    setSongSrc(url);
+  };
 
 /*  let path = await window._TAURI_.path.join(await window._TAURI_.path.audioDir(),"file.mp3")
 let url = convertFileSrc(path)
@@ -231,6 +238,11 @@ let url = convertFileSrc(path)
           setShowList(true);
         }}><h2>Included Songs</h2>
         </li>
+        <li onClick={() => {
+          setShowMenu(false);
+          setShowLocal(true);
+          genMusic();
+        }}><h2>Local Music</h2></li>
         </ul>
       </Show>
       <Show when={showRadio()}>
@@ -267,6 +279,30 @@ let url = convertFileSrc(path)
             }}>{song().title}</li>}</Index>
           </ul>
         </div>
+      </Show>
+      <Show when={showLocal()}>
+        <div id="local">
+          <ul>
+            <Index each={localMusic()}>{(localsong, index) => <button class="LocalList" onClick={() => {
+              setCover("covers/default.png");
+              setSongTitle(localsong().title);
+              setArtist("Unknown");
+              setSongSrc(localsong().src);
+              setShowLocal(false);
+              setShowPlayer(true);
+              setPrefix("");
+              test();
+              createEffect(async () => {
+                const audioDir = await tauriPath.audioDir();
+                const path = await tauriPath.join(audioDir, "Fire_And_Salt.mp3");
+                const url = convertFileSrc(path);
+                setAudioSrc(url);
+                setPlaying(true);
+              });
+            }
+            }>{localsong().title}</button>}</Index>
+          </ul>
+          </div>
       </Show>
       
      <Show when={showPlayer()}> 
@@ -335,9 +371,11 @@ let url = convertFileSrc(path)
                   </td>
                 </tr>
                 </tbody>
-              </table>  
+              </table>
+                
 
           </div>
+          
      </div>
      </div>
      </Show>

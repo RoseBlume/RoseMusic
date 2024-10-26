@@ -13,7 +13,7 @@
     "log:default",
     {
     "identifier": "fs:scope",
-      "allow": [{ "path": "$AUDIO" }, { "path": "$AUDIO/**" }]
+      "allow": [{ "path": "$AUDIO" }, { "path": "$AUDIO/*" }]
     }
   ]
 }

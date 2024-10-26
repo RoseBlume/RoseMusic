@@ -93,6 +93,9 @@ button {
   }
 
 }
+.music_player {
+  position:fixed;
+}
 .music-player-container {
   display: flex;
   flex-direction: row;
@@ -101,6 +104,7 @@ button {
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   width: 800px;
+  height: 100%;
 }
 
 .album-art img {
@@ -135,7 +139,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  position: relative;
+  bottom: 10px;
 }
 #menu {
   align-items: right;
@@ -145,6 +150,7 @@ button {
   color: black;*/
   border: none;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 #prevbutton {
   transform : rotate(180deg);
@@ -154,7 +160,7 @@ button {
 }
 
 .progress-container {
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 
 .progress-bar {

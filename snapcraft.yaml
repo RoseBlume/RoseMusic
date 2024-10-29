@@ -1,0 +1,69 @@
+name: jrosarybibleapp
+base: core24
+adopt-info: metapart
+version: '1.0'
+summary: Listen To Online Radio # 79 char long summary
+description: |
+  Listen to online radio stations from around the world. This app is a simple radio player that allows you to listen to a variety of online radio stations on any device.
+grade: stable
+confinement: strict
+
+platforms:
+  amd64:
+    build-on: [amd64]
+    build-for: [amd64]
+  arm64:
+    build-on: [arm64]
+    build-for: [arm64]
+  armhf:
+    build-on: [armhf]
+    build-for: [armhf]
+  #riscv64:
+  #  build-on: [riscv64]
+  #  build-for: [riscv64]
+
+apps:
+  rosary:
+    command: bin/rosary
+    desktop: usr/share/applications/rosary.desktop
+
+package-repositories:
+  - type: apt
+    components: [main]
+    suites: [noble]
+    key-id: 78E1918602959B9C59103100F1831DDAFC42E99D
+    url: http://ppa.launchpad.net/snappy-dev/snapcraft-daily/ubuntu
+
+parts:
+  prep:
+    plugin: dump
+    #build-snaps:
+    #  - rustup/latest/stable
+    build-packages:
+    #  - libwebkit2gtk-4.1-dev
+    #  - build-essential 
+    #  - curl 
+    #  - wget 
+    #  - file 
+    #  - libxdo-dev 
+    #  - libssl-dev 
+    #  - libayatana-appindicator3-dev 
+    #  - librsvg2-dev
+      - dpkg
+    #  - npm
+    stage-packages:
+      - libwebkit2gtk-4.1-0
+      - libglu1-mesa
+      - libsoup-3.0-0
+      - freeglut3-dev
+    source:
+      - on amd64 to amd64: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0/Rosary_1.0_amd64.deb
+      - on arm64 to arm64: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0/Rosary_1.0_arm64.deb
+      - on armhf to armhf: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0/Rosary_1.0_armhf.deb
+    source-type: deb
+    override-pull: |
+      set -eu
+      craftctl default
+      sed -i -e "s|Icon=rosary|Icon=/usr/share/icons/hicolor/32x32/apps/rosary.png|g" usr/share/applications/rosary.desktop
+    organize:
+      usr/bin/rosary-music: bin/rosary-music

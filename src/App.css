@@ -20,6 +20,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  height: 200%;
 }
 li {
   list-style-type: none;
@@ -66,9 +67,6 @@ a:hover {
   color: #535bf2;
 }
 
-h1 {
-  text-align: center;
-}
 
 
 
@@ -91,10 +89,21 @@ button {
   a:hover {
     color: #24c8db;
   }
+  button {
+    background-color: #2f2f2f;
+  }
+  button:hover {
+    background-color: #282828;
+  }
+  li:hover {
+    background-color: #282828;
+  }
 
 }
 .music_player {
-  position:fixed;
+  position: absolute;
+  bottom:40px;
+  height: 200%;
 }
 .music-player-container {
   display: flex;
@@ -104,13 +113,36 @@ button {
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   width: 800px;
-  height: 100%;
+  height: 200%;
 }
 
 .album-art img {
-  width: 250px;
+  width: 70vh;
   border-radius: 15px;
   margin-right: 20px;
+}
+@media only screen and (orientation: portrait) {
+  .album-art {
+    bottom: 20%;
+    justify-content: center;
+    /*margin-left: 5%;*/
+    width: 100%;
+  }
+  .album-art img {
+    width: 90%;
+    align: center;
+    margin-left:5%;
+    border-radius: 15px;
+  }
+  .song-info {
+    margin-left:5%;
+  }
+}
+@media only screen and (orientation: landscape) {
+  .album-art {
+    bottom: 20%;
+    margin-top: 5%;
+  }
 }
 
 .song-info {
@@ -132,7 +164,10 @@ button {
 }
 
 .controls {
-  margin-top: 20px;
+  position: relative;
+  bottom: 2%;
+  width: 98%;
+  height: 10%;
 }
 
 .player-buttons {
@@ -140,6 +175,7 @@ button {
   align-items: center;
   justify-content: center;
   position: relative;
+  border-radius: 100%;
   bottom: 10px;
 }
 #menu {
@@ -162,8 +198,13 @@ button {
 .progress-container {
   margin-bottom: 10px;
 }
-
+.menbut {
+  border-radius: 100%;
+}
 .progress-bar {
   width: 100%;
   cursor: pointer;
+}
+#area {
+  height: 200%;
 }

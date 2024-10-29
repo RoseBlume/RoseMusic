@@ -35,7 +35,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: 'npm' # Set this to npm, npm or pnpm.
+          cache: 'pnpm' # Set this to npm, npm or pnpm.
 
       - name: install Rust Nightly
         uses: dtolnay/rust-toolchain@nightly
@@ -50,10 +50,10 @@ jobs:
 
       - name: install frontend dependencies
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
-        run: npm install # change this to npm or pnpm depending on which one you use.
+        run: pnpm install # change this to npm or pnpm depending on which one you use.
 
       - name: add icons
-        run: npm run tauri icon Logo.png
+        run: pnpm run tauri icon Logo.png
         
       - uses: tauri-apps/tauri-action@v0.5.15
         id: tauri

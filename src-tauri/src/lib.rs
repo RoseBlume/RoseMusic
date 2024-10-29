@@ -1,4 +1,5 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+/*
 use std::fs;
 use std::path::PathBuf;
 use whoami;
@@ -39,7 +40,8 @@ fn get_music_folder() -> String {
 struct MusicFile {
     title: String,
     src: String,
-}
+
+    }
 #[tauri::command]
 fn scan_music() -> String {
     let music_dir: PathBuf;
@@ -88,7 +90,7 @@ fn scan_music() -> String {
 
     serde_json::to_string(&music_files).unwrap()
 }
-
+*/
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -104,7 +106,7 @@ pub fn run() {
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_persisted_scope::init())
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![greet, scan_music])
+        //.invoke_handler(tauri::generate_handler![greet, scan_music])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -7,13 +7,6 @@
   ],
   "permissions": [
     "core:default",
-    "shell:allow-open",
-    "fs:default",
-    "core:resources:default",
-    "log:default",
-    {
-    "identifier": "fs:scope",
-      "allow": [{ "path": "$AUDIO" }, { "path": "$AUDIO/*" }]
-    }
+    "shell:allow-open"
   ]
 }

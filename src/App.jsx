@@ -106,7 +106,7 @@ const [pop] = createSignal([
   },
   {
     "src": "http://popradiostream.se/stream/1:8001/",
-    "title": "Popradio_Stockholm",
+    "title": "Popradio Stockholm",
     "image": "covers/2.avif"
   },
   {
@@ -574,7 +574,9 @@ let url = convertFileSrc(path)
      <Show when={showPlayer()}> 
       <div class="music-player">
         <div class="album-art">
-          { loading() ? <img src="/covers/pulsing_dot_loader.gif" alt="Album Cover" /> : <img src={cover()} alt="Album Cover" />}
+          <p class="spacer"/>
+          { loading() ? <img src="/covers/pulsing_dot_loader.gif" alt="Album Cover" class="cov" /> : <img src={cover()} class="cov" alt="Album Cover" />}
+          <p class="spacer"/>
         </div>
 
         <div class="song-info">

@@ -1,7 +1,6 @@
 on:
     workflow_dispatch:
-    push:
-name: CI
+name: Flatpak Test
 jobs:
     flatpak:
       name: "Flatpak"

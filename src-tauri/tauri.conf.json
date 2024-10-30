@@ -34,9 +34,10 @@
     "linux": {
       "deb": {
         "files": {
-          "/usr/share/metainfo/io.github.roseblume.rosary.xml": "../io.github.roseblume.rosemusic.xml"
+          "/usr/share/metainfo/io.github.roseblume.rosemusic.xml": "../io.github.roseblume.rosemusic.xml"
         }
-      },
+      }
+    },
     "android": {
       "minSdkVersion": 24
     }

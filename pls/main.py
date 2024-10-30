@@ -16,7 +16,7 @@ def parse_pls_file(file_path):
             if title_match:
                 data['title'] = title_match.group(1).strip()
     
-    data['image'] = 'covers/' + str(random.randint(1, 17)) + '.png'
+    data['image'] = 'covers/' + str(random.randint(1, 17)) + '.avif'
     return data
 
 def convert_pls_to_json(directory):
@@ -35,7 +35,7 @@ def save_json(data, output_file):
         json.dump(data, file, indent=4)
 
 if __name__ == "__main__":
-    directory = '..\pls'  # Replace with the path to your directory
+    directory = '..\\pls'  # Replace with the path to your directory
     output_file = 'output.json'
     
     json_data = convert_pls_to_json(directory)

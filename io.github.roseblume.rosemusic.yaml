@@ -1,50 +1,34 @@
 id: io.github.roseblume.rosary
 runtime: org.gnome.Platform
-runtime-version: '46'
+runtime-version: '47'
 sdk: org.gnome.Sdk
-command: rosary
+command: rosary-music
 finish-args:
   - --socket=fallback-x11
   - --socket=wayland
   - --device=dri
   - --share=ipc
   - --share=network
+  - --socket=pulseaudio
 modules:
-  - name: rosaryx86
+  - name: rose-music
     buildsystem: simple
     build-commands:
       - ar -x *.deb
       - tar -xf data.tar.gz
-      - install -Dm755 usr/bin/rosary /app/bin/rosary
-      - sed -i -e 's|Categories=|Categories=Education|g' usr/share/applications/rosary.desktop
-      - sed -i -e 's|Icon=rosary|Icon=io.github.roseblume.rosary|g' usr/share/applications/rosary.desktop
-      - install -Dm644 usr/share/applications/rosary.desktop /app/share/applications/io.github.roseblume.rosary.desktop
-      - install -Dm644 rosary.svg /app/share/icons/hicolor/scalable/apps/io.github.roseblume.rosary.svg
-      - install -Dm644 usr/share/icons/hicolor/128x128/apps/rosary.png /app/share/icons/hicolor/128x128/apps/io.github.roseblume.rosary.png
-      - install -Dm644 usr/share/icons/hicolor/32x32/apps/rosary.png /app/share/icons/hicolor/32x32/apps/io.github.roseblume.rosary.png
-      - install -Dm644 usr/share/icons/hicolor/256x256@2/apps/rosary.png /app/share/icons/hicolor/256x256@2/apps/io.github.roseblume.rosary.png
-      - install -Dm644 io.github.roseblume.rosary.metainfo.xml /app/share/metainfo/io.github.roseblume.rosary.metainfo.xml
+      - install -Dm755 usr/bin/rosary-music /app/bin/rosary-music
+      - sed -i -e 's|Categories=|Categories=Education|g' usr/share/applications/Rosary-Music.desktop
+      - sed -i -e 's|Icon=rosary-music|Icon=io.github.roseblume.rosemusic|g' usr/share/applications/Rosary-Music.desktop
+      - install -Dm644 usr/share/applications/Rosary-Music.desktop /app/share/applications/io.github.roseblume.rosemusic.desktop
+      - install -Dm644 usr/share/icons/hicolor/128x128/apps/rosary-music.png /app/share/icons/hicolor/128x128/apps/io.github.roseblume.rosemusic.png
+      - install -Dm644 usr/share/icons/hicolor/32x32/apps/rosary-music.png /app/share/icons/hicolor/32x32/apps/io.github.roseblume.rosemusic.png
+      - install -Dm644 usr/share/icons/hicolor/256x256@2/apps/rosary-music.png /app/share/icons/hicolor/256x256@2/apps/io.github.roseblume.rosemusic.png
+      - install -Dm644 io.github.roseblume.rosemusic.metainfo.xml /app/share/metainfo/io.github.roseblume.rosemusic.metainfo.xml
     sources:
       - type: file
-        url: https://github.com/RoseBlume/Rosary/releases/download/v2.0.6/rosary_2.0.6_amd64.deb
-        sha256: d278e7e51cf653072514e807103329d6b91e66cba78c5e01db45301ea20b55c2
+        url: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0.0/Rosary-Music_1.0.0_amd64.deb
+        sha256: f3b175139e6947f59db4f2c342c21fba2106df7a6056ce6bf5a05fa8634f8d56
         dest-filename: rosemusic.deb
         only-arches: [x86_64]
-        x-checker-data:
-          type: anitya
-          project-id: 6377
-          url-template: https://github.com/RoseBlume/Rosary/releases/download/v$version/rosary_"$version"_amd64.deb
       - type: file
-        url: https://github.com/RoseBlume/Rosary/releases/download/v2.0.6/rosary_2.0.6_arm64.deb
-        sha256: ddbf0d1d63f10979d3715765377888c09555cdf1dc67a52530e3d8961c89d9ab
-        dest-filename: rosary.deb
-        only-arches: [aarch64]
-        x-checker-data:
-          type: anitya
-          project-id: 6377
-          url-template: https://github.com/RoseBlume/Rosary/releases/download/v$version/rosary_"$version"_arm64.deb
-      - type: file
-        path: Flatpak.svg
-        dest-filename: rosary.svg
-      - type: file
-        path: io.github.roseblume.rosary.metainfo.xml
+        path: io.github.roseblume.rosemusic.metainfo.xml

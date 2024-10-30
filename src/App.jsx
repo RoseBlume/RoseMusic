@@ -316,7 +316,87 @@ const [rock] = createSignal([
     title: "Bayern Rock",
     src: "http://stream.antenne.de:80/rockantenne",
     image: "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
-  }
+  },
+    {
+        "src": "http://stream.antenne.de:80/live-rock",
+        "title": "ROCK ANTENNE Live Rock",
+        "image": "covers/6.avif"
+    },
+    {
+        "src": "http://185.157.233.163:8014/mainstream",
+        "title": "Barnet Community Radio",
+        "image": "covers/1.avif"
+    },
+    {
+        "src": "https://cast.magicstreams.gr:9037/stream",
+        "title": "Sound of Pluto",
+        "image": "covers/11.avif"
+    },
+    {
+        "src": "https://stm14.xcast.com.br:10632/",
+        "title": "COSTAO FM",
+        "image": "covers/10.avif"
+    },
+    {
+        "src": "https://secordradio.com:8000/radio.mp3",
+        "title": "Secord Lake Radio",
+        "image": "covers/10.avif"
+    },
+    {
+        "src": "https://my-radio.live:10022/stream",
+        "title": "BalkanRock",
+        "image": "covers/10.avif"
+    },
+    {
+        "src": "https://media.fmmradio.com:9095/radio.mp3",
+        "title": "Pure Rock Hits Radio",
+        "image": "covers/1.avif"
+    },
+    {
+        "src": "https://stream.serviciospararadios.es:8060/rockstar.mp3",
+        "title": "RockStar (Espa\u00f1a)",
+        "image": "covers/14.avif"
+    },
+    {
+        "src": "https://server5.mediasector.es:8050/rocksatelite.mp3",
+        "title": "rockSateliteONE HQ",
+        "image": "covers/8.avif"
+    },
+    {
+        "src": "https://maggie.torontocast.com:8036/stream",
+        "title": "VIBRAZIONI ROCK RADIO",
+        "image": "covers/12.avif"
+    },
+    {
+        "src": "https://radio.limnosfm100.gr:9998/limnosfm100",
+        "title": "LimnosFm",
+        "image": "covers/15.avif"
+    },
+    {
+        "src": "https://streaming.radioestacion4.com:8082/stream",
+        "title": "Kocodrilo radio",
+        "image": "covers/12.avif"
+    },
+    {
+        "src": "https://rocklive.radionoise.ro:9130/stream",
+        "title": "Radio Noise Rock",
+        "image": "covers/8.avif"
+    },
+    {
+        "src": "https://a1.asurahosting.com:8930/radio.mp3",
+        "title": "Nu Rock Radio",
+        "image": "covers/17.avif"
+    },
+    {
+        "src": "https://streamconex.com:8106/stream",
+        "title": "Estacion del Valle",
+        "image": "covers/1.avif"
+    },
+    {
+        "src": "http://stream.antenne.de:80/80er-rock",
+        "title": "ROCK ANTENNE 80er Rock",
+        "image": "covers/15.avif"
+    }
 ]);
 
 const [misc] = createSignal([

@@ -1,4 +1,4 @@
-id: io.github.roseblume.rosary
+id: io.github.roseblume.rosemusic
 runtime: org.gnome.Platform
 runtime-version: '47'
 sdk: org.gnome.Sdk
@@ -16,7 +16,7 @@ modules:
     build-commands:
       - ar -x *.deb
       - tar -xf data.tar.gz
-      - install -Dm755 usr/bin/rosary-music /app/bin/rosary-music
+      - install -Dm755 usr/bin/rosary-music /app/bin/rosemusic
       - sed -i -e 's|Categories=|Categories=Education|g' usr/share/applications/Rosary-Music.desktop
       - sed -i -e 's|Icon=rosary-music|Icon=io.github.roseblume.rosemusic|g' usr/share/applications/Rosary-Music.desktop
       - install -Dm644 usr/share/applications/Rosary-Music.desktop /app/share/applications/io.github.roseblume.rosemusic.desktop

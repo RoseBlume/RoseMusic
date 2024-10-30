@@ -31,3 +31,4 @@ modules:
         dest-filename: rosemusic.deb
         only-arches: [x86_64]
       - type: file
+        path: io.github.roseblume.rosemusic.metainfo.xml

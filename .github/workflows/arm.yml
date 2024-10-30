@@ -12,12 +12,12 @@ jobs:
         - arch: aarch64
           cpu: cortex-a72
           deb: arm64
-          other: aarch64
+          other: arm64
           base_image: https://dietpi.com/downloads/images/DietPi_RPi-ARMv8-Bookworm.img.xz
         - arch: armv7l
           cpu: cortex-a53
-          deb: armhf
-          other: arm
+          deb: armel
+          other: armel
           base_image: https://dietpi.com/downloads/images/DietPi_RPi-ARMv7-Bookworm.img.xz
     runs-on: ubuntu-latest
     steps:
@@ -44,13 +44,12 @@ jobs:
             # Install framework specific packages
             sudo npm install --force -g npm@latest
             sudo npm install --force -g nodejs@latest
-            sudo npm install --force -g pnpm@latest
             # Install Rust Nightly
             # rustup default nightly # Only Enable for nightly builds
             # Install frontend dependencies
-            pnpm install
+            npm install
             # Build the application
-            pnpm run tauri build
+            npm run tauri build
             # path Rosary-Music_1.0.0_amd64.deb
       - name: Upload deb bundle
         uses: actions/upload-artifact@v3

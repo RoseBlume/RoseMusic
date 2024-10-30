@@ -5,3 +5,4 @@ dist
 *.idsig
 .flatpak-builder
 *.snap
+/flatpak-builder-tools/

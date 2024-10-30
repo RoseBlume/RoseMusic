@@ -1,9 +1,9 @@
-import { createSignal, Index, Show, createEffect } from "solid-js";
-import { invoke } from "@tauri-apps/api/core";
+import { createSignal, Index, Show } from "solid-js";
+//import { invoke } from "@tauri-apps/api/core";
 //import { readDir, exists, BaseDirectory, audioDir } from '@tauri-apps/plugin-fs';
 //import { warn, debug, trace, info, error } from '@tauri-apps/plugin-log';
-import { convertFileSrc } from "@tauri-apps/api/core";
-import { path as tauriPath } from '@tauri-apps/api';
+//import { convertFileSrc } from "@tauri-apps/api/core";
+//import { path as tauriPath } from '@tauri-apps/api';
 import "./App.css";
 
 /*
@@ -320,7 +320,7 @@ const [rock] = createSignal([
     {
         "src": "http://stream.antenne.de:80/live-rock",
         "title": "ROCK ANTENNE Live Rock",
-        "image": "covers/6.avif"
+        "image": "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
     },
     {
         "src": "http://185.157.233.163:8014/mainstream",
@@ -395,7 +395,7 @@ const [rock] = createSignal([
     {
         "src": "http://stream.antenne.de:80/80er-rock",
         "title": "ROCK ANTENNE 80er Rock",
-        "image": "covers/15.avif"
+        "image": "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
     }
 ]);
 
@@ -470,12 +470,6 @@ function App() {
 
   const [progress, setProgress] = createSignal(0);
   let audio;
-  async function test() {
-    const audioDir = await tauriPath.audioDir();
-    const path = await tauriPath.join(audioDir, "Fire_And_Salt.mp3");
-    const url = convertFileSrc(path);
-    setSongSrc(url);
-  };
 
 /*  let path = await window._TAURI_.path.join(await window._TAURI_.path.audioDir(),"file.mp3")
 let url = convertFileSrc(path)
@@ -646,7 +640,7 @@ let url = convertFileSrc(path)
               setPrefix("");
               clear();
               audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
-            }}>{station().title}</li>}</Index>
+            }}><h2>{station().title}</h2></li>}</Index>
           </Show>
           </ul>
         </div>

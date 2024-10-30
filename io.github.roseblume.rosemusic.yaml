@@ -1,4 +1,4 @@
-id: io.github.roseblume.rosemusic
+id: io.github.roseblume.rosary
 runtime: org.gnome.Platform
 runtime-version: '47'
 sdk: org.gnome.Sdk
@@ -11,19 +11,18 @@ finish-args:
   - --share=network
   - --socket=pulseaudio
 modules:
-  - name: rosary-music
+  - name: rose-music
     buildsystem: simple
     build-commands:
       - ar -x *.deb
       - tar -xf data.tar.gz
       - install -Dm755 usr/bin/rosary-music /app/bin/rosary-music
-      - sed -i -e 's|Categories=|Categories=Music|g' usr/share/applications/Rosary-Music.desktop
-      #- sed -i -e 's|Icon=rosary-music|Icon=io.github.roseblume.rosemusic|g' usr/share/applications/Rosary-Music.desktop
+      - sed -i -e 's|Categories=|Categories=Education|g' usr/share/applications/Rosary-Music.desktop
+      - sed -i -e 's|Icon=rosary-music|Icon=io.github.roseblume.rosemusic|g' usr/share/applications/Rosary-Music.desktop
       - install -Dm644 usr/share/applications/Rosary-Music.desktop /app/share/applications/io.github.roseblume.rosemusic.desktop
-      - install -Dm644 usr/share/icons/hicolor/128x128/apps/rosary-music.png /app/share/icons/hicolor/128x128/apps/io.github.roseblume.rosary.png
-      - install -Dm644 usr/share/icons/hicolor/32x32/apps/rosary-music.png /app/share/icons/hicolor/32x32/apps/io.github.roseblume.rosary.png
-      - install -Dm644 usr/share/icons/hicolor/256x256@2/apps/rosary-music.png /app/share/icons/hicolor/256x256@2/apps/io.github.roseblume.rosary.png
-      - install -Dm644 io.github.roseblume.rosemusic.svg /app/share/icons/hicolor/scalable/apps/io.github.roseblume.rosemusic.svg
+      - install -Dm644 usr/share/icons/hicolor/128x128/apps/rosary-music.png /app/share/icons/hicolor/128x128/apps/io.github.roseblume.rosemusic.png
+      - install -Dm644 usr/share/icons/hicolor/32x32/apps/rosary-music.png /app/share/icons/hicolor/32x32/apps/io.github.roseblume.rosemusic.png
+      - install -Dm644 usr/share/icons/hicolor/256x256@2/apps/rosary-music.png /app/share/icons/hicolor/256x256@2/apps/io.github.roseblume.rosemusic.png
       - install -Dm644 io.github.roseblume.rosemusic.metainfo.xml /app/share/metainfo/io.github.roseblume.rosemusic.metainfo.xml
     sources:
       - type: file
@@ -32,6 +31,3 @@ modules:
         dest-filename: rosemusic.deb
         only-arches: [x86_64]
       - type: file
-        path: io.github.roseblume.rosemusic.metainfo.xml
-      - type: file
-        path: io.github.roseblume.rosemusic.svg

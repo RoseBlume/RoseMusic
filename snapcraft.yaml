@@ -1,7 +1,6 @@
 name: rosemusic
 base: core24
-adopt-info: metapart
-version: '1.0'
+version: '1.0.0'
 summary: Listen To Online Radio # 79 char long summary
 description: |
   Listen to online radio stations from around the world. This app is a simple radio player that allows you to listen to a variety of online radio stations on any device.
@@ -56,10 +55,8 @@ parts:
       - libglu1-mesa
       - libsoup-3.0-0
       - freeglut3-dev
-    source:
-      - on amd64 to amd64: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0.0/Rosary-Music_1.0.0_amd64.deb
-      - on arm64 to arm64: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0/Rosary_1.0_arm64.deb
-      - on armhf to armhf: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0/Rosary_1.0_armhf.deb
+    source: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0.0/Rosary-Music_1.0.0_amd64.deb
+    #  - on amd64 to amd64: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0.0/Rosary-Music_1.0.0_amd64.deb
     source-type: deb
     override-pull: |
       set -eu

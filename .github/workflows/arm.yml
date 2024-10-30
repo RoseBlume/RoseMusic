@@ -42,6 +42,7 @@ jobs:
             . "$HOME/.cargo/env"
             # curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash
             # Install framework specific packages
+            sudo npm install --force -g npm@latest
             sudo npm install --force -g nodejs@latest
             sudo npm install --force -g pnpm@latest
             # Install Rust Nightly

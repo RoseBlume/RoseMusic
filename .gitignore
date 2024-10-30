@@ -4,3 +4,4 @@ dist
 *.apk
 *.idsig
 .flatpak-builder
+*.snap

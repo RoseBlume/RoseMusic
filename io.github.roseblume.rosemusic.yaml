@@ -1,4 +1,4 @@
-id: io.github.roseblume.rosary
+id: io.github.roseblume.rosemusic
 runtime: org.gnome.Platform
 runtime-version: '47'
 sdk: org.gnome.Sdk

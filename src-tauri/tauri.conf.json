@@ -34,7 +34,7 @@
     "linux": {
       "deb": {
         "files": {
-          "/usr/share/metainfo/io.github.roseblume.rosemusic.xml": "./io.github.roseblume.rosemusic.xml"
+          "/usr/share/metainfo/io.github.roseblume.rosemusic.xml": "../io.github.roseblume.rosemusic.metainfo.xml"
         }
       }
     },

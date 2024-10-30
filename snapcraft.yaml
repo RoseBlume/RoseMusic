@@ -64,6 +64,6 @@ parts:
     override-pull: |
       set -eu
       craftctl default
-      sed -i -e "s|Icon=rosary|Icon=/usr/share/icons/hicolor/32x32/apps/rosary.png|g" usr/share/applications/rosary.desktop
+      sed -i -e "s|Icon=rosary|Icon=/usr/share/icons/hicolor/32x32/apps/rosary.png|g" usr/share/applications/Rosary-Music.desktop
     organize:
       usr/bin/rosary-music: bin/rosary-music

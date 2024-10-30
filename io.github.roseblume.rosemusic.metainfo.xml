@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
     <id>io.github.roseblume.rosemusic</id>
-    <launchable type="desktop-id">rosemusic.desktop</launchable>
+    <launchable type="desktop-id">io.github.roseblume.rosemusic.desktop</launchable>
     <name>Rosary</name>
     <developer id="io.github.roseblume.rosary">
         <name>James A. Rose</name>

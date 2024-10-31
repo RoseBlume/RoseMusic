@@ -2941,8 +2941,8 @@
         "type": "script",
         "commands": [
             "$FLATPAK_BUILDER_BUILDDIR/flatpak-node/patch.sh",
-            "$FLATPAK_BUILDER_BUILDDIR/flatpak-node/patch/flatpak-builder-tools/node/vanilla-quick-start.sh",
-            "$FLATPAK_BUILDER_BUILDDIR/flatpak-node/patch/flatpak-builder-tools/node/tests/data/packages/minimal-git.sh"
+            "$FLATPAK_BUILDER_BUILDDIR/flatpak-node/patch/flatpak-builder-tools/node/tests/data/packages/minimal-git.sh",
+            "$FLATPAK_BUILDER_BUILDDIR/flatpak-node/patch/flatpak-builder-tools/node/vanilla-quick-start.sh"
         ],
         "dest-filename": "patch-all.sh",
         "dest": "flatpak-node"

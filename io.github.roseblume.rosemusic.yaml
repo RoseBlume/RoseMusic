@@ -19,7 +19,7 @@ modules:
   - name: rose-music
     buildsystem: simple
     build-commands:
-      - npm install --offline
+      - npm install --cache .npm --offline
       - cargo --offline fetch --manifest-path src-tauri/Cargo.toml
       - npm run tauri build -- -b deb
       - ar -x src-tauri/target/release/bundle/deb/*.deb

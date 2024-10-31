@@ -41,6 +41,6 @@ modules:
       - type: git
         url: https://github.com/RoseBlume/Rose-Music.git
         tag: v1.1.0
-        commit: abd954dde83b08f0a9575c97acfcf3636437a707
+        #commit: abd954dde83b08f0a9575c97acfcf3636437a707
       - cargo-sources.json
       - npm-sources.json

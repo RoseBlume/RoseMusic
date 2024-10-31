@@ -1,8 +1,8 @@
 node_modules
 dist
+flatpak-builder-tools
 *.keystore
 *.apk
 *.idsig
 .flatpak-builder
 *.snap
-/flatpak-builder-tools/

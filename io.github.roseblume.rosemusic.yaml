@@ -19,8 +19,7 @@ modules:
   - name: rose-music
     buildsystem: simple
     build-commands:
-      - for project in . Rosary-Music; do npm ci --offline --legacy-peer-deps --prefix=$project;
-        done
+      - npm install --offline
       - cargo --offline fetch --manifest-path src-tauri/Cargo.toml
       - npm run tauri build -- -b deb
       - ar -x src-tauri/target/release/bundle/deb/*.deb

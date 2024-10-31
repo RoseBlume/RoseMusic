@@ -18,9 +18,12 @@ finish-args:
 modules:
   - name: rose-music
     buildsystem: simple
+    build-options:
+      env:
+        CARGO_HOME: /run/build/RoseMusic/cargo
     build-commands:
       - npm install --offline
-      - cargo --offline fetch --manifest-path src-tauri/Cargo.toml
+      - cargo --offline fetch  --locked #--manifest-path src-tauri/Cargo.toml
       - npm run tauri build -- -b deb
       - ar -x src-tauri/target/release/bundle/deb/*.deb
       - tar -xf src-tauri/target/release/bundle/deb/data.tar.gz

@@ -43,4 +43,4 @@ modules:
         branch: master
         #commit: abd954dde83b08f0a9575c97acfcf3636437a707
       - cargo-sources.json
-      - npm-sources.json
+      - node-sources.json

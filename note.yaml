@@ -1,0 +1,90 @@
+id: io.github.roseblume.rosemusic
+runtime: org.gnome.Platform
+runtime-version: '47'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node22
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: emoji-mart
+rename-icon: emoji-mart
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --device=dri
+  - --env=WEBKIT_DISABLE_DMABUF_RENDERER=1 # https://github.com/tauri-apps/tauri/issues/9304
+
+build-options:
+  append-path: /usr/lib/sdk/node22/bin:/usr/lib/sdk/rust-stable/bin
+
+modules:
+  # To trigger paste on x11
+  - name: xdotool
+    no-autogen: true
+    make-args:
+      - WITHOUT_RPATH_FIX=1
+    make-install-args:
+      - PREFIX=${FLATPAK_DEST}
+    sources:
+      - type: archive
+        url: https://github.com/jordansissel/xdotool/archive/v3.20211022.1/xdotool-3.20211022.1.tar.gz
+        sha256: 82b15a944a5e82fee15e0f6116bd9f642bc3d0bb6989fc0ca5ad9dfe35de0847
+        x-checker-data:
+          type: anitya
+          project-id: 8648
+          stable-only: true
+          url-template: https://github.com/jordansissel/xdotool/archive/v$version/xdotool-$version.tar.gz
+    cleanup:
+      - /share/man
+
+  # # To trigger paste on wayland https://github.com/ReimuNotMoe/ydotool
+  # - name: ydotool
+  #   buildsystem: cmake
+  #   config-opts:
+  #     - -DCMAKE_INSTALL_PREFIX=/app
+  #   sources:
+  #     - type: git
+  #       url: https://github.com/vemonet/ydotool.git
+  #       commit: ffffc817319f02616a5c025e2d5b48ca6601026c
+  #     # - type: dir
+  #     #   path: "../ydotool"
+  #   cleanup:
+  #     - /share/man
+
+  - name: EmojiMart
+    buildsystem: simple
+    build-options:
+      env:
+        CARGO_HOME: /run/build/EmojiMart/cargo
+        XDG_CACHE_HOME: /run/build/EmojiMart/flatpak-node/cache
+        npm_config_offline: 'true'
+        npm_config_cache: /run/build/EmojiMart/flatpak-node/npm-cache
+    sources:
+      - type: git
+        url: https://github.com/vemonet/EmojiMart
+        tag: v0.3.0
+        # commit: 497b6378e3ad20e2361d19d8f84df576832269f9
+      # - type: dir
+      #   path: "../EmojiMart"
+      - 'node-sources.json'
+      - 'cargo-sources.json'
+      - type: file
+        path: io.github.vemonet.EmojiMart.metainfo.xml
+      - type: file
+        path: io.github.vemonet.EmojiMart.desktop
+    build-commands:
+      - npm ci --offline --legacy-peer-deps
+      - cargo --offline fetch --manifest-path src-tauri/Cargo.toml
+      - npm run tauri build -- -b deb
+      - install -Dm644 -t /app/share/metainfo/ io.github.vemonet.EmojiMart.metainfo.xml
+      # - install -Dm755 -t /app/bin/ src-tauri/target/release/bundle/deb/*/data/usr/bin/emoji-mart-app
+      - install -Dm755 src-tauri/target/release/bundle/deb/*/data/usr/bin/emoji-mart-app /app/bin/emoji-mart
+      - mkdir -p /app/share/icons/hicolor/256x256/apps
+      - cp -r src-tauri/target/release/bundle/deb/*/data/usr/share/icons/hicolor/* /app/share/icons/hicolor/
+      # Icons requirements: https://docs.flatpak.org/en/latest/conventions.html#application-icons
+      # There is a bug in flatpak, even if we define Exec and Icon=emoji-mart-app in the desktop file,
+      # it will still complain that it can't find emoji-mart... so we have to rename the icon to emoji-mart
+      # So many hidden states
+      - mv /app/share/icons/hicolor/256x256@2/apps/emoji-mart-app.png /app/share/icons/hicolor/256x256/apps/emoji-mart.png
+      - install -Dm644 -t /app/share/applications/ io.github.vemonet.EmojiMart.desktop

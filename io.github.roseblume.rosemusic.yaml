@@ -4,7 +4,7 @@ runtime-version: '47'
 sdk: org.gnome.Sdk
 command: rosary-music
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node20
+  - org.freedesktop.Sdk.Extension.node22
   - org.freedesktop.Sdk.Extension.rust-stable
 build-options:
   append-path: /usr/lib/sdk/node20/bin:/usr/lib/sdk/rust-stable/bin
@@ -19,7 +19,7 @@ modules:
   - name: rose-music
     buildsystem: simple
     build-commands:
-      - npm install --cache .npm --offline
+      - npm ci --offline
       - cargo --offline fetch --manifest-path src-tauri/Cargo.toml
       - npm run tauri build -- -b deb
       - ar -x src-tauri/target/release/bundle/deb/*.deb
@@ -40,7 +40,7 @@ modules:
      #   only-arches: [x86_64]
       - type: git
         url: https://github.com/RoseBlume/Rose-Music.git
-        tag: v1.1.0
+        branch: master
         #commit: abd954dde83b08f0a9575c97acfcf3636437a707
       - cargo-sources.json
       - npm-sources.json

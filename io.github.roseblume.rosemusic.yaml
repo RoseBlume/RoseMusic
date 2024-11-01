@@ -24,12 +24,12 @@ modules:
         npm_config_offline: 'true'
         npm_config_cache: /run/build/rose-music/flatpak-node/npm-cache
     sources:
-      - type: git
-        url: https://github.com/RoseBlume/RoseMusic.git
       - cargo-sources.json
       - node-sources.json
+      - type: git
+        url: https://github.com/RoseBlume/RoseMusic.git
     build-commands:
-      - ls -r /
+      - ls -R /
       - npm ci --offline --legacy-peer-deps
       - cargo --offline fetch --manifest-path src-tauri/Cargo.toml
       - npm run tauri build -- -b deb

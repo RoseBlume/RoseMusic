@@ -28,12 +28,14 @@ modules:
       - type: git
         url: https://github.com/RoseBlume/RoseMusic.git
         tag: v1.1.0
+      - type: dir
+        path: node_modules
       - cargo-sources.json
       - node-sources.json
     build-commands:
       - ls -r /
-      - flatpak-node/patch-all.sh
-      - npm ci --offline --legacy-peer-deps
+      #- flatpak-node/patch-all.sh
+      - npm install --cache node_modules --offline --legacy-peer-deps
       - cargo --offline fetch --manifest-path src-tauri/Cargo.toml
       - npm run tauri build -- -b deb
       - ar -x src-tauri/target/release/bundle/deb/*.deb

@@ -55,8 +55,10 @@ parts:
       - libglu1-mesa
       - libsoup-3.0-0
       - freeglut3-dev
-    source: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0.0/Rosary-Music_1.0.0_amd64.deb
-    #  - on amd64 to amd64: https://github.com/RoseBlume/Rose-Music/releases/download/v1.0.0/Rosary-Music_1.0.0_amd64.deb
+    source: 
+      - on amd64 to amd64: https://github.com/RoseBlume/RoseMusic/releases/download/v1.1.0/Rosary-Music_1.0.0_amd64.deb
+      - on arm64 to arm64: https://github.com/RoseBlume/RoseMusic/releases/download/v1.1.0/Rosary-Music_1.0.0_arm64.deb
+      - on armhf to armhf: https://github.com/RoseBlume/RoseMusic/releases/download/v1.1.0/Rosary-Music_1.0.0_armel.deb
     source-type: deb
     override-pull: |
       set -eu

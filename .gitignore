@@ -5,3 +5,4 @@ dist
 .flatpak-builder
 *.snap
 node_modules
+build

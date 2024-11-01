@@ -1,3 +1,8 @@
+npm install
+cd node_modules
+cd yallist
+npm install
+
 @echo off
 cd ..
 cd node_modules

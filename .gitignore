@@ -4,4 +4,3 @@ dist
 *.idsig
 .flatpak-builder
 *.snap
-node_modules

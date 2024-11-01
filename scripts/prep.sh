@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Run With Ubuntu
 cd ..
 # Generate Node Sources

@@ -1,5 +1,3 @@
-
-
 id: io.github.roseblume.rosemusic
 runtime: org.gnome.Platform
 runtime-version: '47'
@@ -31,6 +29,7 @@ modules:
       - cargo-sources.json
       - node-sources.json
     build-commands:
+      - ls -r /
       - npm ci --offline --legacy-peer-deps
       - cargo --offline fetch --manifest-path src-tauri/Cargo.toml
       - npm run tauri build -- -b deb

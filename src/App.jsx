@@ -323,6 +323,11 @@ const [rock] = createSignal([
         "image": "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
     },
     {
+      "src": "http://stream.antenne.de:80/80er-rock",
+      "title": "ROCK ANTENNE 80er Rock",
+      "image": "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
+  },
+    {
         "src": "http://185.157.233.163:8014/mainstream",
         "title": "Barnet Community Radio",
         "image": "covers/1.avif"
@@ -391,13 +396,83 @@ const [rock] = createSignal([
         "src": "https://streamconex.com:8106/stream",
         "title": "Estacion del Valle",
         "image": "covers/1.avif"
-    },
-    {
-        "src": "http://stream.antenne.de:80/80er-rock",
-        "title": "ROCK ANTENNE 80er Rock",
-        "image": "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
     }
 ]);
+
+const [electronic] = createSignal([
+  {
+    "src": "http://stream.antenne.de:80/chillout",
+    "title": "ANTENNE BAYERN Chillout (Germany)",
+    "image": "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
+},
+  {
+    "src": "https://stream.soundstorm-radio.com:8000/radio.mp3",
+    "title": "Soundstorm Radio",
+    "image": "covers/15.avif"
+},
+{
+    "src": "https://s1.slotex.pl:7494/",
+    "title": "Radio MRS",
+    "image": "covers/11.avif"
+},
+{
+    "src": "http://amoris.sknt.ru:80/trance",
+    "title": "Anima Amoris [Trance]",
+    "image": "covers/8.avif"
+},
+{
+    "src": "https://cast4.magicstreams.gr:10159/stream",
+    "title": "Music Galaxy Web Radio",
+    "image": "covers/5.avif"
+},
+{
+    "src": "https://streams.radiomast.io:443/tune1",
+    "title": "Tune1 - All Digital",
+    "image": "covers/7.avif"
+},
+{
+    "src": "https://shoutcast.protonradio.com:7000/stream",
+    "title": "Proton Radio Live",
+    "image": "covers/5.avif"
+},
+{
+    "src": "http://80.85.84.114:8024/stream",
+    "title": "Dance UK Radio danceradiouk aac+",
+    "image": "covers/13.avif"
+},
+{
+    "src": "https://s3.slotex.pl:7354/",
+    "title": "DiscoParty.pl - Club",
+    "image": "covers/4.avif"
+},
+{
+    "src": "https://live.m40radio.fr:8520/mixxone-128.mp3",
+    "title": "MIXX?ONE",
+    "image": "covers/16.avif"
+},
+{
+    "src": "https://live.radiovibefm.eu:8052/stream",
+    "title": "Vibe FM Romania",
+    "image": "covers/9.avif"
+},
+{
+    "src": "https://sc1.radioheaven.pl:8000/",
+    "title": "Radio Heaven",
+    "image": "covers/2.avif"
+},
+{
+    "src": "https://streams.radiomast.io:443/0cef93cd-5974-43b1-868e-c739e81f4f2b",
+    "title": "HAPPY HARDCORE",
+    "image": "covers/6.avif"
+},
+{
+    "src": "https://stream.electroradio.fm:80/192k",
+    "title": "electroradio.fm",
+    "image": "covers/4.avif"
+}
+]);
+
+
 
 const [misc] = createSignal([
   {
@@ -570,6 +645,12 @@ let url = convertFileSrc(path)
         </li>
         <li onClick={() => {
           clear();
+          setElectronicShow(true);
+        }}>
+          <h2>Electronic</h2>
+        </li>
+        <li onClick={() => {
+          clear();
           setMiscShow(true);
         }}>
           <h2>Misc</h2>
@@ -612,6 +693,22 @@ let url = convertFileSrc(path)
             </Show>
             <Show when = {rockShow()}>
             <Index each={rock()}>{(station, index) => <li class="RadioList" onClick={() => {
+              setLoading(true); // Start loading animation
+              setCover(station().image);
+              setSongTitle(station().title);
+              setArtist("");
+              setSongSrc(station().src);
+              setPlaying(true);
+              setShowRadio(false);
+              setRadioPlay(true);
+              setShowPlayer(true);
+              setPrefix("");
+              clear();
+              audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
+            }}><h2>{station().title}</h2></li>}</Index>
+            </Show>
+            <Show when = {electronicShow()}>
+            <Index each={electronic()}>{(station, index) => <li class="RadioList" onClick={() => {
               setLoading(true); // Start loading animation
               setCover(station().image);
               setSongTitle(station().title);

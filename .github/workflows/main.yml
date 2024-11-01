@@ -37,9 +37,9 @@ jobs:
       - name: Remove Modules(Windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          rmdir /s /q node_modules
-          rmdir /s /q src-tauri\vendor
-          rmdir /s /q src-tauri\.cargo
+          Remove-Item -Recurse -Force node_modules
+          Remove-Item -Recurse -Force src-tauri\vendor
+          Remove-Item -Recurse -Force src-tauri\.cargo
       - name: setup pnpm
         uses: pnpm/action-setup@v4
         with:

@@ -3,7 +3,7 @@
     <id>io.github.roseblume.rosemusic</id>
     <launchable type="desktop-id">io.github.roseblume.rosemusic.desktop</launchable>
     <name>Rosary</name>
-    <developer id="io.github.roseblume.rosary">
+    <developer id="io.github.roseblume.rosemusic">
         <name>James A. Rose</name>
     </developer>
     <content_rating type="oars-1.1">
@@ -23,7 +23,7 @@
 
     <metadata_license>MIT</metadata_license>
     <project_license>MIT</project_license>
-    <url type="homepage">https://github.com/RoseBlume/Rosary</url>
+    <url type="homepage">https://github.com/RoseBlume/RoseMusic</url>
 
     <supports>
         <control>pointing</control>

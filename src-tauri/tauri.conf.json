@@ -31,10 +31,15 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
+    "category": "Music",
     "linux": {
+      "appimage": {
+      "bundleMediaFramework": true
+      },
       "deb": {
         "files": {
-          "/usr/share/metainfo/io.github.roseblume.rosemusic.xml": "../io.github.roseblume.rosemusic.metainfo.xml"
+          "/usr/share/metainfo/io.github.roseblume.rosemusic.metainfo.xml": "../io.github.roseblume.rosemusic.metainfo.xml",
+          "/usr/share/icons/hicolor/scalable/apps/rosary-music.svg": "../io.github.roseblume.rosemusic.svg"
         }
       }
     },

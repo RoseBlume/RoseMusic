@@ -3,6 +3,7 @@ runtime: org.gnome.Platform
 runtime-version: '47'
 sdk: org.gnome.Sdk
 command: rosary-music
+rename-icon: rosary-music
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node20
   #- org.freedesktop.Sdk.Extension.rust-stable
@@ -25,26 +26,28 @@ modules:
         npm_config_offline: true
         npm_config_cache: /run/build/rose-music/flatpak-node/npm-cache
     sources:
-      - type: git
-        url: https://github.com/RoseBlume/RoseMusic.git
-        tag: v1.1.0
+      #- type: git
+      #  url: https://github.com/RoseBlume/RoseMusic.git
+      #  tag: v1.1.4
       - type: dir
-        path: node_modules
-      - cargo-sources.json
-      - node-sources.json
+        path: ../RoseMusic
+      #- cargo-sources.json
+      #- node-sources.json
     build-commands:
-      - ls -r /
       #- flatpak-node/patch-all.sh
-      - npm install --cache node_modules --offline --legacy-peer-deps
-      - cargo --offline fetch --manifest-path src-tauri/Cargo.toml
+      - npm install --cache node_modules --offline
+      #- cargo --offline fetch --manifest-path src-tauri/Cargo.toml
       - npm run tauri build -- -b deb
       - ar -x src-tauri/target/release/bundle/deb/*.deb
-      - tar -xf src-tauri/target/release/bundle/deb/data.tar.gz
-      - install -Dm755 src-tauri/target/release/bundle/deb/usr/bin/rosary-music /app/bin/rosary-music
-      #- sed -i -e 's|Categories=|Categories=Education|g' usr/share/applications/Rosary-Music.desktop
+      - tar -xf src-tauri/target/release/bundle/deb/Rosary*/data.tar.gz
+      - install -Dm755 src-tauri/target/release/bundle/deb/Rosary*/data/usr/bin/rosary-music /app/bin/rosary-music
+      #- sed -i -e 's|Categories=|Categories=Music|g' usr/share/applications/Rosary-Music.desktop
       #- sed -i -e 's|Icon=rosary-music|Icon=io.github.roseblume.rosemusic|g' usr/share/applications/Rosary-Music.desktop
-      - install -Dm644 src-tauri/target/release/bundle/deb/usr/share/applications/Rosary-Music.desktop /app/share/applications/io.github.roseblume.rosemusic.desktop
-      - install -Dm644 src-tauri/target/release/bundle/deb/usr/share/icons/hicolor/128x128/apps/rosary-music.png /app/share/icons/hicolor/128x128/apps/io.github.roseblume.rosemusic.png
-      - install -Dm644 src-tauri/target/release/bundle/deb/usr/share/icons/hicolor/32x32/apps/rosary-music.png /app/share/icons/hicolor/32x32/apps/io.github.roseblume.rosemusic.png
-      - install -Dm644 src-tauri/target/release/bundle/deb/usr/share/icons/hicolor/256x256@2/apps/rosary-music.png /app/share/icons/hicolor/256x256@2/apps/io.github.roseblume.rosemusic.png
-      - install -Dm644 src-tauri/target/release/bundle/deb/usr/share/metainfo/io.github.roseblume.rosemusic.xml /app/share/metainfo/io.github.roseblume.rosemusic.metainfo.xml
+      - install -Dm644 src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/applications/Rosary-Music.desktop /app/share/applications/io.github.roseblume.rosemusic.desktop
+      #- cat app/share/applications/*.desktop
+      - install -Dm644 src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/icons/hicolor/128x128/apps/rosary-music.png /app/share/icons/hicolor/128x128/apps/rosary-music.png
+      - install -Dm644 src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/icons/hicolor/32x32/apps/rosary-music.png /app/share/icons/hicolor/32x32/apps/rosary-music.png
+      - install -Dm644 src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/icons/hicolor/256x256@2/apps/rosary-music.png /app/share/icons/hicolor/512x512/apps/rosary-music.png
+      - install -Dm644 src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/icons/hicolor/scalable/apps/rosary-music.svg /app/share/icons/hicolor/scalable/apps/rosary-music.svg
+
+      - install -Dm644 src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/metainfo/io.github.roseblume.rosemusic.metainfo.xml /app/share/metainfo/io.github.roseblume.rosemusic.metainfo.xml

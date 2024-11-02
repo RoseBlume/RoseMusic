@@ -1,6 +1,5 @@
 on:
     workflow_dispatch:
-    push:
 name: Flatpak Test
 jobs:
     flatpak:
@@ -15,17 +14,4 @@ jobs:
         with:
           bundle: palette.flatpak
           manifest-path: io.github.roseblume.rosemusic.yaml
-          cache-key: flatpak-builder-${{ github.sha }}
-    test-alt:
-      name: "Flatpak"
-      runs-on: ubuntu-latest
-      container:
-        image: bilelmoussaoui/flatpak-github-actions:gnome-47
-        options: --privileged
-      steps:
-      - uses: actions/checkout@v4
-      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-        with:
-          bundle: palette.flatpak
-          manifest-path: note.yml
           cache-key: flatpak-builder-${{ github.sha }}

@@ -3,7 +3,7 @@
 # Run With Ubuntu
 cd ..
 # Generate Node Sources
-flatpak-node-generator --no-requests-cache -r -o node-sources.json npm package-lock.json
+flatpak-node-generator --no-requests-cache -o node-sources.json yarn yarn.lock
 
 # Generate Cargo Sources
 

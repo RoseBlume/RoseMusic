@@ -35,6 +35,8 @@ modules:
       #- node-sources.json
     build-commands:
       #- flatpak-node/patch-all.sh
+      #- rm -r src-tauri/target
+      #- rm -r src-tauri/gen
       - npm install --cache node_modules --offline
       #- cargo --offline fetch --manifest-path src-tauri/Cargo.toml
       - npm run tauri build -- -b deb

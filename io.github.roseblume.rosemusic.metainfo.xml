@@ -38,19 +38,16 @@
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>https://raw.githubusercontent.com/RoseBlume/Rosary/side/main.png</image>
-            <caption />
-        </screenshot>
-        <screenshot>
-            <image>https://raw.githubusercontent.com/RoseBlume/Rosary/side/menu.png</image>
-            <caption />
+            <image>https://github.com/RoseBlume/RoseMusic/blob/side/App.png?raw=true</image>
+            <caption>Menu</caption>
         </screenshot>
     </screenshots>
     <releases>
-        <release version="1.0.0" date="2024-10-29" >
+        <release version="1.0.0" date="2024-11-02" >
             <description>
             <ul>
                 <li>Updated UI</li>
+                <li>Added Electronic Genre</li>
             </ul>
             </description>
         </release>

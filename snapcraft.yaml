@@ -1,6 +1,6 @@
 name: rosemusic
 base: core24
-version: '1.0.0'
+version: '2.0.0'
 summary: Listen To Online Radio # 79 char long summary
 description: |
   Listen to online radio stations from around the world. This app is a simple radio player that allows you to listen to a variety of online radio stations on any device.
@@ -36,32 +36,40 @@ package-repositories:
 parts:
   prep:
     plugin: dump
-    #build-snaps:
-    #  - rustup/latest/stable
+    build-snaps:
+      - rustup/latest/stable
     build-packages:
-    #  - libwebkit2gtk-4.1-dev
-    #  - build-essential 
-    #  - curl 
-    #  - wget 
-    #  - file 
-    #  - libxdo-dev 
-    #  - libssl-dev 
-    #  - libayatana-appindicator3-dev 
-    #  - librsvg2-dev
+      - libwebkit2gtk-4.1-dev
+      - build-essential 
+      - curl 
+      - wget 
+      - file 
+      - libxdo-dev 
+      - libssl-dev 
+      - libayatana-appindicator3-dev 
+      - librsvg2-dev
       - dpkg
+      - yarn
     #  - npm
     stage-packages:
       - libwebkit2gtk-4.1-0
       - libglu1-mesa
       - libsoup-3.0-0
       - freeglut3-dev
-    source: 
-      - on amd64 to amd64: https://github.com/RoseBlume/RoseMusic/releases/download/v1.1.0/Rosary-Music_1.1.0_amd64.deb
-      - on arm64 to arm64: https://github.com/RoseBlume/RoseMusic/releases/download/v1.1.0/Rosary-Music_1.1.0_arm64.deb
-      - on armhf to armhf: https://github.com/RoseBlume/RoseMusic/releases/download/v1.1.0/Rosary-Music_1.1.0_armel.deb
-    source-type: deb
+    source: https://github.com/RoseBlume/RoseMusic.git
+      #- on amd64 to amd64: https://github.com/RoseBlume/RoseMusic/releases/download/v1.1.0/Rosary-Music_1.1.0_amd64.deb
+      #- on arm64 to arm64: https://github.com/RoseBlume/RoseMusic/releases/download/v1.1.0/Rosary-Music_1.1.0_arm64.deb
+    #  - on armhf to armhf: https://github.com/RoseBlume/RoseMusic/releases/download/v1.1.0/Rosary-Music_1.1.0_armel.deb
+    #source-type: deb
     override-pull: |
       set -eu
       craftctl default
+      rustup default stable
+      yarn install
+      yarn run tauri build -- -b deb
+      dpkg-deb -x src-tauri/target/release/bundle/deb/*.deb here
     organize:
-      usr/bin/rosary-music: bin/rosary-music
+      here/usr/bin/rosary-music: bin/rosary-music
+      here/usr/share/icons/hicolor/128x128/apps/rosary-music.png: /usr/share/icons/hicolor/128x128/apps/rosary-music.png
+      here/usr/share/icons/hicolor/32x32/apps/rosary-music.png: /usr/share/icons/hicolor/32x32/apps/rosary-music.png
+      here/usr/share/icons/hicolor/256x256@2/apps/rosary-music.png: /usr/share/icons/hicolor/256x256@2/apps/rosary-music.png

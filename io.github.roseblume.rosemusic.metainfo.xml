@@ -2,7 +2,7 @@
 <component type="desktop-application">
     <id>io.github.roseblume.rosemusic</id>
     <launchable type="desktop-id">io.github.roseblume.rosemusic.desktop</launchable>
-    <name>Rosary</name>
+    <name>Rosary Music</name>
     <developer id="io.github.roseblume.rosemusic">
         <name>James A. Rose</name>
     </developer>

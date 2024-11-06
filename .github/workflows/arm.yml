@@ -47,6 +47,8 @@ jobs:
             sudo npm install --force -g nodejs@latest
             # Install Rust Nightly
             # rustup default nightly # Only Enable for nightly builds
+            # Remove Yarn Lock
+            rm yarn.lock
             # Install frontend dependencies
             npm install
             # Build the application

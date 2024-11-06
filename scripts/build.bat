@@ -1,8 +1,8 @@
 cd ..
 
-pnpm run tauri icon Logo.png
+yarn run tauri icon Logo.png
 
-pnpm run tauri android build
+yarn run tauri android build
 
 zipalign -f -v 4 src-tauri\gen\android\app\build\outputs\apk\universal\release\app-universal-release-unsigned.apk Rose-Music.apk
 

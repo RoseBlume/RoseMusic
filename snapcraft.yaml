@@ -25,6 +25,9 @@ apps:
   rosary:
     command: usr/bin/rosary-music
     desktop: usr/share/applications/Rosary-Music.desktop
+    extensions: [gnome]
+    plugs:
+      - network
 
 package-repositories:
   - type: apt

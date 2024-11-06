@@ -50,7 +50,7 @@ jobs:
             # Remove Yarn Lock
             #rm yarn.lock
             # Install frontend dependencies
-            yarn  install
+            yarn install
             # Build the application
             yarn run tauri build
             # path Rosary-Music_1.0.0_amd64.deb

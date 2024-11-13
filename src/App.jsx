@@ -5,7 +5,7 @@ import { createSignal, Index, Show } from "solid-js";
 //import { convertFileSrc } from "@tauri-apps/api/core";
 //import { path as tauriPath } from '@tauri-apps/api';
 import "./App.css";
-
+import rosetta from "rosetta";
 /*
 <Show when={showLocal()}>
         <div id="local">
@@ -25,6 +25,48 @@ import "./App.css";
           </div>
       </Show>
 */
+
+const i18n = new rosetta ({
+  en: {
+    alternative: "Alternative",
+    pop: "Pop",
+    rock: "Rock",
+    electronic: "Electronic",
+    reggae: "Reggae",
+    misc: "Misc",
+  },
+  es: {
+    alternative: "Alternativa",
+    pop: "Pop",
+    rock: "Rock",
+    electronic: "Electrónica",
+    reggae: "Reggae",
+    misc: "Varios",
+  },
+  de: {
+    alternative: "Alternative",
+    pop: "Pop",
+    rock: "Rock",
+    electronic: "Elektronisch",
+    reggae: "Reggae",
+    misc: "Verschiedenes",
+  },
+  fr: {
+    alternative: "Alternative",
+    pop: "Pop",
+    rock: "Rock",
+    electronic: "Électronique",
+    reggae: "Reggae",
+    misc: "Divers",
+  }
+
+});
+try {
+  i18n.locale(navigator.language.slice(0, 2));
+}
+catch {
+  i18n.locale("es");
+}
 const [alternative] = createSignal([
   {
     "src": "https://jm8n.net:8018/stream",
@@ -428,7 +470,7 @@ function App() {
 
   const [progress, setProgress] = createSignal(0);
   let audio;
-
+  
 /*  let path = await window._TAURI_.path.join(await window._TAURI_.path.audioDir(),"file.mp3")
 let url = convertFileSrc(path)
   */
@@ -512,37 +554,37 @@ let url = convertFileSrc(path)
           clear();
           setAlternativeShow(true);
         }}>
-          <h2>Alternative</h2>
+          <h2>{i18n.t("alternative")}</h2>
         </li>
         <li onClick={() => {
           clear();
           setPopShow(true);
         }}>
-          <h2>Pop</h2>
+          <h2>{i18n.t("pop")}</h2>
         </li>
         <li onClick={() => {
           clear();
           setRockShow(true);
         }}>
-          <h2>Rock</h2>
+          <h2>{i18n.t("rock")}</h2>
         </li>
         <li onClick={() => {
           clear();
           setElectronicShow(true);
         }}>
-          <h2>Electronic</h2>
+          <h2>{i18n.t("electronic")}</h2>
         </li>
         <li onClick={() => {
           clear();
           setReggaeShow(true);
         }}>
-          <h2>Reggae</h2>
+          <h2>{i18n.t("reggae")}</h2>
         </li>
         <li onClick={() => {
           clear();
           setMiscShow(true);
         }}>
-          <h2>Misc</h2>
+          <h2>{i18n.t("misc")}</h2>
         </li>
 
       </Show>

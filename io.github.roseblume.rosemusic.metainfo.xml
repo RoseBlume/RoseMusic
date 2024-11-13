@@ -20,6 +20,9 @@
         <display_length compare="ge">360</display_length>
     </recommends>
     <summary>Listen To Online Radio</summary>
+    <summary xml:lang="de">Hören Sie Online-Radio</summary>
+    <summary xml:lang="es">Escucha la radio en línea</summary>
+    <summary xml:lang="fr">Écoutez la radio en ligne</summary>
 
     <metadata_license>MIT</metadata_license>
     <project_license>MIT</project_license>
@@ -43,6 +46,13 @@
         </screenshot>
     </screenshots>
     <releases>
+    <release version="2.1.0" date="2024-11-13">
+            <description>
+            <ul>
+                <li>Added Support for more languages</li>
+            </ul>
+            </description>
+        </release>
     <release version="2.0.2" date="2024-11-12">
             <description>
             <ul>

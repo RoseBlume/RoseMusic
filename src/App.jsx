@@ -27,16 +27,6 @@ import "./App.css";
 */
 const [alternative] = createSignal([
   {
-    "src": "https://shoutcast.brownrice.com:8002/",
-    "title": "KNCE Taos Radio",
-    "image": "covers/9.avif"
-  },
-  {
-    "src": "https://kathy.torontocast.com:2620/",
-    "title": "1 Pure Alternative",
-    "image": "covers/13.avif"
-  },
-  {
     "src": "https://jm8n.net:8018/stream",
     "title": "Radio La Innovadora TV",
     "image": "covers/15.avif"
@@ -59,12 +49,7 @@ const [alternative] = createSignal([
   {
     "src": "https://streamconex.com:8104/stream",
     "title": "KLA Radio 97.1",
-    "image": "covers/13.avif"
-  },
-  {
-    "src": "https://stream.fm90.hu:8000/",
-    "title": "Campus R\u00e1di\u00f3 FM90",
-    "image": "covers/11.avif"
+    "image": "covers/14.avif"
   },
   {
     "src": "https://cast.radiocast.ch:9000/stream",
@@ -90,11 +75,6 @@ const [alternative] = createSignal([
     "src": "https://streamconex.com:8096/stream",
     "title": "Radio NDR FM 103.9",
     "image": "covers/4.avif"
-  },
-  {
-    "src": "https://media.dominiocreativo.com:8000/",
-    "title": "Radio YSKL 104.1 FM",
-    "image": "covers/5.avif"
   }
 ]);
 
@@ -120,11 +100,6 @@ const [pop] = createSignal([
     "image": "covers/11.avif"
   },
   {
-    "src": "https://broadcast.radioponiente.org:8036/",
-    "title": "RADIO PONIENTE",
-    "image": "covers/6.avif"
-  },
-  {
     "src": "https://yayin.firatfm.net:8016/stream",
     "title": "Radio Firat Fm Pop",
     "image": "covers/2.avif"
@@ -132,17 +107,12 @@ const [pop] = createSignal([
   {
     "src": "https://streams.radiomast.io:443/ba864be6-11d1-4e13-aa74-f8e8781f64f6",
     "title": "BraidwoodFM",
-    "image": "covers/13.avif"
+    "image": "covers/12.avif"
   },
   {
     "src": "https://media.srb-streaming.com:8002/stream",
     "title": "Radio Sumadinac EX YU",
     "image": "covers/17.avif"
-  },
-  {
-    "src": "https://radio.persianvip.com:8888/",
-    "title": "Persian VIP",
-    "image": "covers/13.avif"
   },
   {
     "src": "https://server-27.stream-server.nl:8140/stream",
@@ -157,7 +127,7 @@ const [pop] = createSignal([
   {
     "src": "https://radio.mediacp.eu:8072/stream",
     "title": "LOVE MOMENTS RADIO",
-    "image": "covers/9.avif"
+    "image": "covers/8.avif"
   },
   {
     "src": "https://radio.en.rs:8000/radio.mp3",
@@ -165,44 +135,9 @@ const [pop] = createSignal([
     "image": "covers/6.avif"
   },
   {
-    "src": "https://radiohuis.com:9200/ElisaFM",
-    "title": "Elisa FM Belgi\u00eb",
-    "image": "covers/2.avif"
-  },
-  {
-    "src": "https://broadcast.radioponiente.org:8034/",
-    "title": "DALIAS RADIOLUZ CLASSIC",
-    "image": "covers/16.avif"
-  },
-  {
-    "src": "https://stream.radio-mit-herz.de:8000/radio.mp3",
-    "title": "Radio mit Herz",
-    "image": "covers/9.avif"
-  },
-  {
-    "src": "https://streams.radiomast.io:443/abe5f558-c883-47de-91ea-e04a06ed1fd4",
-    "title": "lumiRadio - 24/7 Unofficial Homestuck Radio",
-    "image": "covers/1.avif"
-  },
-  {
-    "src": "https://stream.badratunfm.com:8000/live",
-    "title": "Radio Badratun FM Sigli",
-    "image": "covers/14.avif"
-  },
-  {
-    "src": "https://masterdomains.be:8000/",
-    "title": "Radio Superstar2",
-    "image": "covers/1.avif"
-  },
-  {
     "src": "https://cp1.sednastream.com:8014/stream",
     "title": "ClubFM Albania",
     "image": "covers/17.avif"
-  },
-  {
-    "src": "https://broadcast.radioponiente.org:8038/",
-    "title": "ALMERIA TRENDY FM",
-    "image": "covers/16.avif"
   },
   {
     "src": "https://stm12.xcast.com.br:9904/",
@@ -227,7 +162,7 @@ const [pop] = createSignal([
   {
     "src": "https://s08.w3bserver.com:8170/radio.mp3",
     "title": "Stuffmix",
-    "image": "covers/13.avif"
+    "image": "covers/14.avif"
   },
   {
     "src": "https://b1.alhastream.com:4090/radio",
@@ -245,24 +180,9 @@ const [pop] = createSignal([
     "image": "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
   },
   {
-    "src": "https://broadcast.radioponiente.org:8072/",
-    "title": "RADIO BERJA",
-    "image": "covers/5.avif"
-  },
-  {
-    "src": "https://cheetah.streemlion.com:2490/",
-    "title": "Radio Mondo Italia - La Radio delle Comunit\u00e0 Italiane nel mondo",
-    "image": "covers/1.avif"
-  },
-  {
     "src": "https://mpc1.mediacp.eu:8036/stream",
     "title": "Power FM Breda",
-    "image": "covers/9.avif"
-  },
-  {
-    "src": "https://liveradio.co.il:7000/",
-    "title": "Radio-Kol Ramla",
-    "image": "covers/1.avif"
+    "image": "covers/8.avif"
   },
   {
     "src": "https://protvradiostream.com:8280/stream",
@@ -285,29 +205,14 @@ const [pop] = createSignal([
     "image": "covers/4.avif"
   },
   {
-    "src": "https://pop.mamasfm.com:4500/",
-    "title": "Pop Radyo Mamas FM",
-    "image": "covers/4.avif"
-  },
-  {
     "src": "https://stm4.xcast.com.br:8938/2",
     "title": "FM Clube Teresina",
     "image": "covers/14.avif"
   },
   {
-    "src": "https://c2.auracast.net:8022/radio.mp3",
-    "title": "Best Spain",
-    "image": "covers/7.avif"
-  },
-  {
-    "src": "https://radio.streemlion.com:2760/",
-    "title": "Radio ITALY",
-    "image": "covers/2.avif"
-  },
-  {
     "src": "https://radio.trucksim.fm:8000/radio.mp3",
     "title": "TruckSimFM",
-    "image": "covers/9.avif"
+    "image": "covers/8.avif"
   }
 ]);
 
@@ -336,16 +241,6 @@ const [rock] = createSignal([
         "src": "https://cast.magicstreams.gr:9037/stream",
         "title": "Sound of Pluto",
         "image": "covers/11.avif"
-    },
-    {
-        "src": "https://stm14.xcast.com.br:10632/",
-        "title": "COSTAO FM",
-        "image": "covers/10.avif"
-    },
-    {
-        "src": "https://secordradio.com:8000/radio.mp3",
-        "title": "Secord Lake Radio",
-        "image": "covers/10.avif"
     },
     {
         "src": "https://my-radio.live:10022/stream",
@@ -381,21 +276,6 @@ const [rock] = createSignal([
         "src": "https://streaming.radioestacion4.com:8082/stream",
         "title": "Kocodrilo radio",
         "image": "covers/12.avif"
-    },
-    {
-        "src": "https://rocklive.radionoise.ro:9130/stream",
-        "title": "Radio Noise Rock",
-        "image": "covers/8.avif"
-    },
-    {
-        "src": "https://a1.asurahosting.com:8930/radio.mp3",
-        "title": "Nu Rock Radio",
-        "image": "covers/17.avif"
-    },
-    {
-        "src": "https://streamconex.com:8106/stream",
-        "title": "Estacion del Valle",
-        "image": "covers/1.avif"
     }
 ]);
 
@@ -404,21 +284,6 @@ const [electronic] = createSignal([
     "src": "http://stream.antenne.de:80/chillout",
     "title": "ANTENNE BAYERN Chillout (Germany)",
     "image": "https://www.antenne.de/media/cache/3/version/18696/streamlogo_simulcast_live_aby_neu_2000x2000-v1.jpg/5e26f53136d9fcbd4f9101a8e1c652ba.webp"
-},
-  {
-    "src": "https://stream.soundstorm-radio.com:8000/radio.mp3",
-    "title": "Soundstorm Radio",
-    "image": "covers/15.avif"
-},
-{
-    "src": "https://s1.slotex.pl:7494/",
-    "title": "Radio MRS",
-    "image": "covers/11.avif"
-},
-{
-    "src": "http://amoris.sknt.ru:80/trance",
-    "title": "Anima Amoris [Trance]",
-    "image": "covers/8.avif"
 },
 {
     "src": "https://cast4.magicstreams.gr:10159/stream",
@@ -438,12 +303,7 @@ const [electronic] = createSignal([
 {
     "src": "http://80.85.84.114:8024/stream",
     "title": "Dance UK Radio danceradiouk aac+",
-    "image": "covers/13.avif"
-},
-{
-    "src": "https://s3.slotex.pl:7354/",
-    "title": "DiscoParty.pl - Club",
-    "image": "covers/4.avif"
+    "image": "covers/14.avif"
 },
 {
     "src": "https://live.m40radio.fr:8520/mixxone-128.mp3",
@@ -453,12 +313,7 @@ const [electronic] = createSignal([
 {
     "src": "https://live.radiovibefm.eu:8052/stream",
     "title": "Vibe FM Romania",
-    "image": "covers/9.avif"
-},
-{
-    "src": "https://sc1.radioheaven.pl:8000/",
-    "title": "Radio Heaven",
-    "image": "covers/2.avif"
+    "image": "covers/8.avif"
 },
 {
     "src": "https://streams.radiomast.io:443/0cef93cd-5974-43b1-868e-c739e81f4f2b",
@@ -472,6 +327,34 @@ const [electronic] = createSignal([
 }
 ]);
 
+const [reggae] = createSignal(
+  [
+    {
+        "src": "https://a1.asurahosting.com:8910/radio.mp3",
+        "title": "Reggae Chalet Radio",
+        "image": "covers/2.avif"
+    },
+    {
+        "src": "https://dc2.serverse.com:8022/stream",
+        "title": "baddajam",
+        "image": "covers/8.avif"
+    },
+    {
+        "src": "https://s1.nexuscast.com:8904/DjLiberated",
+        "title": "Liberated Radio",
+        "image": "covers/6.avif"
+    },
+    {
+        "src": "http://amoris.sknt.ru:80/reggae",
+        "title": "Anima Amoris [Reggae]",
+        "image": "covers/10.avif"
+    },
+    {
+        "src": "https://azuracast.jammimvibez.com:8010/stream",
+        "title": "Reggae Classic Hits",
+        "image": "covers/15.avif"
+    }
+]);
 
 
 const [misc] = createSignal([
@@ -651,6 +534,12 @@ let url = convertFileSrc(path)
         </li>
         <li onClick={() => {
           clear();
+          setReggaeShow(true);
+        }}>
+          <h2>Reggae</h2>
+        </li>
+        <li onClick={() => {
+          clear();
           setMiscShow(true);
         }}>
           <h2>Misc</h2>
@@ -723,6 +612,24 @@ let url = convertFileSrc(path)
               audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
             }}><h2>{station().title}</h2></li>}</Index>
             </Show>
+            <Show when={reggaeShow()}>
+            <Index each={reggae()}>{(station, index) => <li class="RadioList" onClick={() => {
+              setLoading(true); // Start loading animation
+              setCover(station().image);
+              setSongTitle(station().title);
+              setArtist("");
+              setSongSrc(station().src);
+              setPlaying(true);
+              setShowRadio(false);
+              setRadioPlay(true);
+              setShowPlayer(true);
+              setPrefix("");
+              clear();
+              audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
+            }}><h2>{station().title}</h2></li>}</Index>
+            </Show>
+
+
             <Show when = {miscShow()}>
             <Index each={misc()}>{(station, index) => <li class="RadioList" onClick={() => {
               setLoading(true); // Start loading animation

@@ -43,6 +43,14 @@
         </screenshot>
     </screenshots>
     <releases>
+    <release version="2.0.2" date="2024-11-12">
+            <description>
+            <ul>
+                <li>Removed Inactive Stations</li>
+                <li>Added Reggae Stations</li>
+            </ul>
+            </description>
+        </release>
         <release version="2.0.0" date="2024-11-08">
             <description>
             <ul>

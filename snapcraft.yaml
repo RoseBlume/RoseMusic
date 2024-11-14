@@ -39,6 +39,7 @@ package-repositories:
 parts:
   prep:
     plugin: dump
+    parse-info: io.github.roseblume.rosemusic.metainfo.xml
     build-snaps:
       - rustup/latest/stable
       - node/20/stable

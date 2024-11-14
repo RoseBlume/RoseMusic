@@ -6,7 +6,7 @@ description: |
   Listen to online radio stations from around the world. This app is a simple radio player that allows you to listen to a variety of online radio stations on any device.
 grade: stable
 confinement: strict
-
+adopt-info: part-with-metadata
 platforms:
   amd64:
     build-on: [amd64]
@@ -37,6 +37,10 @@ package-repositories:
     url: http://ppa.launchpad.net/snappy-dev/snapcraft-daily/ubuntu
 
 parts:
+  part-with-metadata:
+    plugin: dump
+    source: .
+    parse-info: io.github.roseblume.rosemusic.metainfo.xml
   prep:
     plugin: dump
     parse-info: io.github.roseblume.rosemusic.metainfo.xml

@@ -37,7 +37,11 @@ const i18n = new rosetta({
 });
 
 try {
-  i18n.locale(navigator.language.slice(0, 2));
+  const locale = navigator.language.slice(0, 2).toLowerCase();
+  if (!["fr", "en", "es", "de"].includes(locale)) {
+    throw new Error("Unsupported language");
+  }
+  i18n.locale(locale);
 } catch {
   i18n.locale("es");
 }

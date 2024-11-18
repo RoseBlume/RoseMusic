@@ -303,8 +303,7 @@ export const [electronic] = createSignal([
 }
 ]);
 
-export const [reggae] = createSignal(
-[
+export const [reggae] = createSignal([
     {
         "src": "https://a1.asurahosting.com:8910/radio.mp3",
         "title": "Reggae Chalet Radio",

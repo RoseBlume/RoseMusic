@@ -3,35 +3,7 @@ import "./App.css";
 import i18n from "./i18n";
 import { alternative, pop, rock, electronic, reggae, misc } from "./signals";
 
-
-try {
-  i18n.locale(navigator.language.slice(0, 2));
-}
-catch {
-  i18n.locale("es");
-}
-
-
-/*
-<img src={cover()} id="cover" />
-      <h2 class="songtitle">{songTitle()}</h2>
-      <h3 class="artist">{artist()}</h3>
-      <audio id="audio" src={songSrc()} controls autoPlay></audio>
-
-
-
-
-       <button onClick={() => {
-          setShowMenu(false);
-          setShowLocal(true);
-          genMusic();
-        }}><h2>Local Music</h2></button>
-*/
 function App() {
-  const [localMusic, setLocalMusic] = createSignal("");
-  const [localNames, setLocalNames] = createSignal("");
-  const [greetMsg, setGreetMsg] = createSignal("");
-  const [name, setName] = createSignal("");
   const [cover, setCover] = createSignal("covers/Leaning_Towers_Of_Babylon.png");
   const [songTitle, setSongTitle] = createSignal("");
   const [artist, setArtist] = createSignal("");
@@ -76,9 +48,6 @@ function App() {
   const [progress, setProgress] = createSignal(0);
   let audio;
   
-/*  let path = await window._TAURI_.path.join(await window._TAURI_.path.audioDir(),"file.mp3")
-let url = convertFileSrc(path)
-  */
 
 
 // Play or pause the song

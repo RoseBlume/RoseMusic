@@ -59,6 +59,7 @@ parts:
     source: https://github.com/RoseBlume/RoseMusic.git
     override-build: |
       set -eu
+      yarn install
       rustup default stable
       cargo install tauri-cli
       cargo tauri build -- -b deb

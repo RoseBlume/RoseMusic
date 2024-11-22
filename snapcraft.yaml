@@ -60,6 +60,6 @@ parts:
     override-build: |
       set -eu
       rustup default stable
-      yarn install
-      yarn run tauri build -- -b deb
+      cargo install tauri-cli
+      cargo tauri build -- -b deb
       dpkg -x src-tauri/target/release/bundle/deb/*.deb $SNAPCRAFT_PART_INSTALL/

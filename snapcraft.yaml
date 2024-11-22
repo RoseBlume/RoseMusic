@@ -62,5 +62,5 @@ parts:
       yarn install
       rustup default stable
       cargo install tauri-cli
-      cargo tauri build -- -b deb
+      cargo tauri build
       dpkg -x src-tauri/target/release/bundle/deb/*.deb $SNAPCRAFT_PART_INSTALL/

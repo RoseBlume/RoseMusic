@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Run With Ubuntu
-cd ..
+git clone https://github.com/flatpak/flatpak-builder-tools.git
 # Generate Node Sources
 flatpak-node-generator --no-requests-cache -o node-sources.json yarn yarn.lock
 

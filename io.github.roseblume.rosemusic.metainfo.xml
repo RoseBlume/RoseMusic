@@ -63,6 +63,13 @@
     </custom>
 
     <releases>
+    <release version="2.1.1" date="2024-12-19">
+            <description>
+            <ul>
+                <li>Improved Phosh support</li>
+            </ul>
+            </description>
+        </release>
     <release version="2.1.0" date="2024-11-13">
             <description>
             <ul>

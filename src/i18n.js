@@ -43,7 +43,7 @@ try {
   }
   i18n.locale(locale);
 } catch {
-  i18n.locale("es");
+  i18n.locale("en");
 }
 
 export default i18n;

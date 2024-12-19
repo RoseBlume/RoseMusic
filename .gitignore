@@ -4,6 +4,11 @@ dist
 *.idsig
 .flatpak-builder
 *.snap
+*.timestamp
 build
 node_modules
 pnpm-lock.yaml
+usr
+control.tar.gz
+data.tar.gz
+debian-binary

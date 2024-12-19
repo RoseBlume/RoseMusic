@@ -4,13 +4,16 @@
     <launchable type="desktop-id">io.github.roseblume.rosemusic.desktop</launchable>
     <name>Rosary Music</name>
     <developer id="io.github.roseblume.rosemusic">
-        <name>James A. Rose</name>
+        <name translate="no">James A. Rose</name>
     </developer>
     <content_rating type="oars-1.1">
     </content_rating>
     <keywords>
         <keyword>Music</keyword>
         <keyword>Radio</keyword>
+        <keyword xml:lang="de">Musik</keyword>
+        <keyword xml:lang="es">Música</keyword>
+        <keyword xml:lang="fr">Musique</keyword>
     </keywords>
     <branding>
         <color type="primary" scheme_preference="light">#00ffff</color>
@@ -38,6 +41,15 @@
         <p>
             Listen to online radio stations from around the world. This app is a simple radio player that allows you to listen to a variety of online radio stations on any device.
         </p>
+        <p xml:lang="de">
+            Hören Sie Online-Radiosender aus der ganzen Welt. Diese App ist ein einfacher Radioplayer, mit dem Sie eine Vielzahl von Online-Radiosendern auf jedem Gerät anhören können.
+        </p>
+        <p xml:lang="es">
+            Escucha estaciones de radio en línea de todo el mundo. Esta aplicación es un sencillo reproductor de radio que te permite escuchar una variedad de estaciones de radio en línea en cualquier dispositivo.
+        </p>
+        <p xml:lang="fr">
+            Écoutez des stations de radio en ligne du monde entier. Cette application est un simple lecteur de radio qui vous permet d'écouter une variété de stations de radio en ligne sur n'importe quel appareil.
+        </p>
     </description>
     <screenshots>
         <screenshot type="default">
@@ -45,6 +57,11 @@
             <caption>Menu</caption>
         </screenshot>
     </screenshots>
+    <custom>
+        <value key="Purism::form_factor">workstation</value>
+        <value key="Purism::form_factor">mobile</value>
+    </custom>
+
     <releases>
     <release version="2.1.0" date="2024-11-13">
             <description>

@@ -27,8 +27,9 @@ modules:
         yarn_config_offline: 'true'
         yarn_config_cache: /run/build/rose-music/flatpak-node/npm-cache
     sources:
-      - type: dir
-        path: ../RoseMusic
+      - type: git
+        url: https://github.com/RoseBlume/RoseMusic.git
+        tag: v2.1.0
       - cargo-sources.json
       - node-sources.json
     build-commands:
@@ -39,6 +40,7 @@ modules:
       - ar -x src-tauri/target/release/bundle/deb/*.deb
       - tar -xf src-tauri/target/release/bundle/deb/Rosary*/data.tar.gz
       - install -Dm755 src-tauri/target/release/bundle/deb/Rosary*/data/usr/bin/rosary-music /app/bin/rosary-music
+      - echo 'X-Purism-FormFactor=Workstation;Mobile;' >> src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/applications/Rosary-Music.desktop
       - install -Dm644 src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/applications/Rosary-Music.desktop /app/share/applications/io.github.roseblume.rosemusic.desktop
       - install -Dm644 src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/icons/hicolor/128x128/apps/rosary-music.png /app/share/icons/hicolor/128x128/apps/rosary-music.png
       - install -Dm644 src-tauri/target/release/bundle/deb/Rosary*/data/usr/share/icons/hicolor/32x32/apps/rosary-music.png /app/share/icons/hicolor/32x32/apps/rosary-music.png

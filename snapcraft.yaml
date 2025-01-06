@@ -1,6 +1,6 @@
 name: rosemusic
 base: core24
-version: '2.1.0'
+version: '2.2.0'
 summary: Listen To Online Radio # 79 char long summary
 description: |
   Listen to online radio stations from around the world. This app is a simple radio player that allows you to listen to a variety of online radio stations on any device.

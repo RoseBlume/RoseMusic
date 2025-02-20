@@ -1,294 +1,372 @@
-import { createSignal, Index, Show } from "solid-js";
+import { createEffect, createSignal, Index, Show } from "solid-js";
 import "./App.css";
 import i18n from "./i18n";
 import { alternative, pop, rock, electronic, reggae, misc } from "./signals";
-
+import { invoke } from "@tauri-apps/api/core";
+import { Radio } from "./Radio";
+import { listen } from '@tauri-apps/api/event';
+import { Settings } from "./Components/settings";
+import { ProgressBar } from "./Components/ProgressBar";
 function App() {
-  const [cover, setCover] = createSignal("covers/Leaning_Towers_Of_Babylon.png");
-  const [songTitle, setSongTitle] = createSignal("");
-  const [artist, setArtist] = createSignal("");
-  const [songSrc, setSongSrc] = createSignal("");
-  const [prefix, setPrefix] = createSignal("By: ");
-  // Loading Variables
+  const [home, setHome] = createSignal(true);
+  const [tracksShow, setTracksShow] = createSignal(false);
+  const [tracks, setTracks] = createSignal();
+  const [genre, setGenre] = createSignal(false);
+  const [artist, setArtist] = createSignal(false);
+  const [radio, setRadio] = createSignal(false);
+  const [player, setPlayer] = createSignal(false);
   const [playing, setPlaying] = createSignal(false);
-  const [loading, setLoading] = createSignal(false);
+  const [paused, setPaused] = createSignal(false);
+  const [muse, setMuse] = createSignal(false);
+  const [stringTracks, setStringTracks] = createSignal("");
+  const [genres, setGenres] = createSignal();
+  const [currentLocation, setCurrentLocation] = createSignal("C:\\Users\\James\\Music\\(I Can_t Get No) Satisfaction.mp3");
+  const [currentArtist, setCurrentArtist] = createSignal("The Rolling Stones");
+  const [currentTitle, setCurrentTitle] = createSignal("(I Can't Get No) Satisfaction");
+  const [currentGenre, setCurrentGenre] = createSignal("Rock");
+  const [cover, setCover] = createSignal("");
+  const [currentDuration, setCurrentDuration] = createSignal(0);
+  const [currentTime, setCurrentTime] = createSignal(0);
+  const [stopInterval, setStopInterval] = createSignal(false);
+  const [debugMode, setDebugMode] = createSignal(false);
+  const [settings, setSettings] = createSignal(false);
 
-  const [radioPlay, setRadioPlay] = createSignal(false);
-  const [music, SetMusic] = createSignal("");
-  // Genre Variables
-  const [alternativeShow, setAlternativeShow] = createSignal(false);
-  const [bluesShow, setBluesShow] = createSignal(false);
-  const [classicalShow, setClassicalShow] = createSignal(false);
-  const [countryShow, setCountryShow] = createSignal(false);
-  const [easyListeningShow, setEasyListeningShow] = createSignal(false);
-  const [electronicShow, setElectronicShow] = createSignal(false);
-  const [folkShow, setFolkShow] = createSignal(false);
-  const [themesShow, setThemesShow] = createSignal(false);
-  const [rapShow, setRapShow] = createSignal(false);
-  const [inspirationalShow, setInspirationalShow] = createSignal(false);
-  const [internationalShow, setInternationalShow] = createSignal(false);
-  const [jazzShow, setJazzShow] = createSignal(false);
-  const [latinShow, setLatinShow] = createSignal(false);
-  const [metalShow, setMetalShow] = createSignal(false);
-  const [newAgeShow, setNewAgeShow] = createSignal(false);
-  const [decadesShow, setDecadesShow] = createSignal(false);
-  const [popShow, setPopShow] = createSignal(false);
-  const [rbUrbanShow, setRbUrbanShow] = createSignal(false);
-  const [reggaeShow, setReggaeShow] = createSignal(false);
-  const [rockShow, setRockShow] = createSignal(false);
-  const [seasonalHolidayShow, setSeasonalHolidayShow] = createSignal(false);
-  const [soundtracksShow, setSoundtracksShow] = createSignal(false);
-  const [talkShow, setTalkShow] = createSignal(false);
-  const [miscShow, setMiscShow] = createSignal(false);
+  setStopInterval(true);
 
-  // Area Variables
-  const [showPlayer, setShowPlayer] = createSignal(false);
-  const [showRadio, setShowRadio] = createSignal(true);
-
-  const [progress, setProgress] = createSignal(0);
-  let audio;
-  
-
-
-// Play or pause the song
-  const togglePlay = () => {
-    if (playing()) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-    setPlaying(!playing());
-  };
-  // Update progress bar
-  const updateProgress = () => {
-    const progress = (audio.currentTime / audio.duration) * 100;
-    setProgress(progress);
+  const scanMusic = async () => {
+    setTracks(await invoke("scan_music_files"));
+    await invoke("save_music_data", {data: tracks()});
   };
 
-  async function clear() {
-    setAlternativeShow(false);
-    setBluesShow(false);
-    setClassicalShow(false);
-    setCountryShow(false);
-    setEasyListeningShow(false);
-    setElectronicShow(false);
-    setFolkShow(false);
-    setThemesShow(false);
-    setRapShow(false);
-    setInspirationalShow(false);
-    setInternationalShow(false);
-    setJazzShow(false);
-    setLatinShow(false);
-    setMetalShow(false);
-    setNewAgeShow(false);
-    setDecadesShow(false);
-    setPopShow(false);
-    setRbUrbanShow(false);
-    setReggaeShow(false);
-    setRockShow(false);
-    setSeasonalHolidayShow(false);
-    setSoundtracksShow(false);
-    setTalkShow(false);
-    setMiscShow(false);
-    setShowRadio(false);
+
+  async function get_progress() {
+    const progress = await invoke("get_song_progress");
+    setCurrentTime(progress);
   }
+  const handleMenuClick = () => {
+    setHome(true);
+    setTracksShow(false);
+    setGenre(false);
+    setArtist(false);
+    setRadio(false);
+    setPlayer(false);
+    setDebugMode(false);
+    setSettings(false);
+    invoke("log", {message: "Menu Clicked"});
+    stop_track();
+  };
+  async function clear() {
+    setSettings(false);
+    setHome(false);
+    setTracksShow(false);
+    setGenre(false);
+    setArtist(false);
+    setRadio(false);
+    
+  }
+
+  const togglePlay = () => {
+    setPlaying(!playing());
+    toggle_play();
+  };
+
+  async function check_playing() {
+      const status = await invoke("is_playing");
+      setPlaying(status);
+  }
+  async function start_timer() {
+    const interval = setInterval(() => {
+      get_progress();
+      if (currentTime() >= currentDuration()) {
+        next_track();
+      }
+    }, 1000);
+  }
+
+  async function next_track() {
+    await invoke("stop");
+    const trackList = tracks();
+    if (!trackList || trackList.length === 0) return;
+    const currentIndex = trackList.findIndex(t => t.location === currentLocation());
+    const nextIndex = currentIndex === -1 || currentIndex === trackList.length - 1 ? 0 : currentIndex + 1;
+    const next = trackList[nextIndex];
+    setCurrentLocation(next.location);
+    setCurrentArtist(next.artist);
+    setCurrentTitle(next.title);
+    setCurrentGenre(next.genre);
+    setCurrentDuration(next.duration);
+    setCover(next.cover);
+    start_track();
+  }
+
+  async function prev_track() {
+    await invoke("stop");
+    const trackList = tracks();
+    if (!trackList || trackList.length === 0) return;
+    const currentIndex = trackList.findIndex(t => t.location === currentLocation());
+    const prevIndex = currentIndex <= 0 ? trackList.length - 1 : currentIndex - 1;
+    const prev = trackList[prevIndex];
+    setCurrentLocation(prev.location);
+    setCurrentArtist(prev.artist);
+    setCurrentTitle(prev.title);
+    setCurrentGenre(prev.genre);
+    setCover(prev.cover);
+    start_track();
+  }
+  async function get_tracks() {
+    // const tracksData = await invoke("scan_music_files");
+    const tracksData = await invoke("get_scan_file");
+    setTracks(tracksData);
+    setStringTracks(JSON.stringify(tracksData));
+  }
+  get_tracks();
+  async function get_genres() {
+
+  }
+  async function start_track() {
+    await invoke("play_song", {location: currentLocation()})
+    setPlaying(true);
+    setCurrentTime(0);
+    setStopInterval(false);
+    start_timer();
+  }
+
+  const onSeek = async (time) => {
+    await invoke("seek_to", {timeMs: time});
+    get_progress();
+  };
+
+  const handleInput = (event) => {
+    setCurrentTime(Number(event.target.value));
+  };
+
+  const handleChange = (event) => {
+    onSeek(Number(event.target.value)); // Call the parent function to update playback time
+  };
+
+  async function stop_track() {
+    await invoke("stop")
+    setStopInterval(true);
+    setPlaying(false);
+    setPaused(false);
+  }
+  stop_track();
+  async function toggle_play() {
+    setPlaying(!playing());
+    await invoke("toggle_playing");
+  }
+
+  async function get_duration() {
+    const duration = await invoke("convert_to_milli", {seconds: currentDuration()});
+    // setCurrentDuration(duration);
+  }
+  async function main_loop() {
+    const timer = setInterval(() => {
+      get_progress();
+      if (currrentProgress() >= currentDuration()) {
+        next_track();
+      }
+    }, 100);
+  }
+  main_loop();
+  createEffect(() => {
+    get_duration();
+    get_progress();
+    check_playing();
+  }
+  );
+
   return (
-    <div id="area">
-      <Show when={showRadio()}>
-        <li onClick={() => {
-          clear();
-          setAlternativeShow(true);
-        }}>
-          <h2>{i18n.t("alternative")}</h2>
-        </li>
-        <li onClick={() => {
-          clear();
-          setPopShow(true);
-        }}>
-          <h2>{i18n.t("pop")}</h2>
-        </li>
-        <li onClick={() => {
-          clear();
-          setRockShow(true);
-        }}>
-          <h2>{i18n.t("rock")}</h2>
-        </li>
-        <li onClick={() => {
-          clear();
-          setElectronicShow(true);
-        }}>
-          <h2>{i18n.t("electronic")}</h2>
-        </li>
-        <li onClick={() => {
-          clear();
-          setReggaeShow(true);
-        }}>
-          <h2>{i18n.t("reggae")}</h2>
-        </li>
-        <li onClick={() => {
-          clear();
-          setMiscShow(true);
-        }}>
-          <h2>{i18n.t("misc")}</h2>
-        </li>
-
-      </Show>
-        <div id="radio">
-          <ul>
-            <Show when = {alternativeShow()}>
-            <Index each={alternative()}>{(station, index) => <li class="RadioList" onClick={() => {
-              setLoading(true); // Start loading animation
-              setCover(station().image);
-              setSongTitle(station().title);
-              setArtist("");
-              setSongSrc(station().src);
-              setPlaying(true);
-              setShowRadio(false);
-              setRadioPlay(true);
-              setShowPlayer(true);
-              setPrefix("");
+    <main>
+      <Show when={home()}>
+        <ul>
+          <li
+            onClick={() => {
               clear();
-              audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
-            }}><h2>{station().title}</h2></li>}</Index>
+              setArtist(true);
+            }}
+          >
+            <h2>Artists</h2>
+          </li>
+          <li
+            onClick={() => {
+              clear();
+              setGenre(true);
+            }}
+          >
+            <h2>Genres</h2>
+          </li>
+          <li
+            onClick={() => {
+              clear();
+              setTracksShow(true);
+            }}
+          >
+            <h2>Tracks</h2>
+          </li>
+          <li
+            onClick={() => {
+              clear();
+              setRadio(true);
+            }}
+          >
+            <h2>Radio</h2>
+          </li>
+          <li onClick={() => {
+            clear();
+            setSettings(true);
+          }}><h2>Settings</h2></li>
+          <li
+            onClick={() => {
+              clear();
+                setDebugMode(true);
+              }}
+              >
+              <h2>Debug</h2>
+              </li>
+            </ul>
             </Show>
-            <Show when = {popShow()}>
-            <Index each={pop()}>{(station, index) => <li class="RadioList" onClick={() => {
-              setLoading(true); // Start loading animation
-              setCover(station().image);
-              setSongTitle(station().title);
-              setArtist("");
-              setSongSrc(station().src);
-              setPlaying(true);
-              setShowRadio(false);
-              setRadioPlay(true);
-              setShowPlayer(true);
-              setPrefix("");
-              clear();
-              audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
-            }}><h2>{station().title}</h2></li>}</Index>
+            <Show when={radio()}>
+            <Radio MenuClick={handleMenuClick} />
             </Show>
-            <Show when = {rockShow()}>
-            <Index each={rock()}>{(station, index) => <li class="RadioList" onClick={() => {
-              setLoading(true); // Start loading animation
-              setCover(station().image);
-              setSongTitle(station().title);
-              setArtist("");
-              setSongSrc(station().src);
-              setPlaying(true);
-              setShowRadio(false);
-              setRadioPlay(true);
-              setShowPlayer(true);
-              setPrefix("");
-              clear();
-              audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
-            }}><h2>{station().title}</h2></li>}</Index>
+            <Show when={player()}>
+            <div class="music-player">
+              <div class="album-art">
+              <p class="spacer" />
+              <img src={cover() || "/covers/default_cover.png"} alt="Album Cover" class="cov" />
+              <p class="spacer" />
+              </div>
+              <div class="song-info">
+              <h1 class="song-title">{currentTitle()}</h1>
+              <h2 class="artist">{currentArtist()}</h2>
+              <h3 class="genre">{currentGenre()}</h3>
+              <h3>Time: {currentTime()}</h3>
+              <h3>Duration: {currentDuration()}</h3>
+              </div>
+              <div class="progress-bar">
+                <input
+                type="range"
+                min="0"
+                max={currentDuration()}
+                value={currentTime()}
+                onInput={handleInput}
+                onChange={handleChange}
+                style={{ width: "100%" }}
+              />
+              </div>
+              <div class="player-buttons">
+              <button class="menbut" onClick={prev_track}>
+                <img class="buttons" src="/buttons/previous-light.webp" style="transform: rotate(0deg);" />
+              </button>
+              <Show when={playing()}>
+                <button class="menbut" onClick={toggle_play}>
+                <img class="buttons" src="/buttons/pause-light.png" />
+                </button>
+              </Show>
+              <Show when={!playing()}>
+                <button class="menbut" onClick={toggle_play}>
+                <img class="buttons" src="/buttons/play-light.png" />
+                </button>
+              </Show>
+              <button class="menbut" onClick={next_track}>
+                <img class="buttons" src="/buttons/previous-light.webp" style="transform: rotate(180deg);" />
+              </button>
+              <div id="menu">
+                <button class="menbut" onClick={handleMenuClick}>
+                <img class="buttons" src="/buttons/Menu-Light.png" />
+                </button>
+              </div>
+              </div>
+            </div>
             </Show>
-            <Show when = {electronicShow()}>
-            <Index each={electronic()}>{(station, index) => <li class="RadioList" onClick={() => {
-              setLoading(true); // Start loading animation
-              setCover(station().image);
-              setSongTitle(station().title);
-              setArtist("");
-              setSongSrc(station().src);
-              setPlaying(true);
-              setShowRadio(false);
-              setRadioPlay(true);
-              setShowPlayer(true);
-              setPrefix("");
-              clear();
-              audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
-            }}><h2>{station().title}</h2></li>}</Index>
+            <Show when={tracksShow()}>
+            <ul>
+              <li onClick={() => handleMenuClick()}>
+              <h2 onClick={handleMenuClick}>&larr; Back</h2>
+              </li>
+              <Index each={[...(tracks() || [])].sort((a, b) => a.title.localeCompare(b.title))}>
+              {(track) => (
+                <li
+                onClick={() => {
+                  setCurrentLocation(track().location);
+                  setCurrentArtist(track().artist);
+                  setCurrentTitle(track().title);
+                  setCurrentGenre(track().genre);
+                  setCurrentDuration(track().duration);
+                  setCover(track().cover);
+                  get_duration();
+                  setPlayer(true);
+                  setMuse(true);
+                  clear();
+                  start_track();
+                }}
+                >
+                <h2>{track().title}</h2>
+                </li>
+              )}
+              </Index>
+            </ul>
             </Show>
-            <Show when={reggaeShow()}>
-            <Index each={reggae()}>{(station, index) => <li class="RadioList" onClick={() => {
-              setLoading(true); // Start loading animation
-              setCover(station().image);
-              setSongTitle(station().title);
-              setArtist("");
-              setSongSrc(station().src);
-              setPlaying(true);
-              setShowRadio(false);
-              setRadioPlay(true);
-              setShowPlayer(true);
-              setPrefix("");
-              clear();
-              audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
-            }}><h2>{station().title}</h2></li>}</Index>
-            </Show>
-
-
-            <Show when = {miscShow()}>
-            <Index each={misc()}>{(station, index) => <li class="RadioList" onClick={() => {
-              setLoading(true); // Start loading animation
-              setCover(station().image);
-              setSongTitle(station().title);
-              setArtist("");
-              setSongSrc(station().src);
-              setPlaying(true);
-              setShowRadio(false);
-              setRadioPlay(true);
-              setShowPlayer(true);
-              setPrefix("");
-              clear();
-              audio.addEventListener('canplaythrough', () => setLoading(false), { once: true });
-            }}><h2>{station().title}</h2></li>}</Index>
-          </Show>
+            <Show when={genre()}>
+            <h2 onClick={handleMenuClick}>&larr; Back</h2>
+            <div class="genre-section">
+              <ul>
+              {(() => {
+                  const fullList = stringTracks() ? JSON.parse(stringTracks()) : [];
+                  const uniqueGenres = [...new Set(fullList.map(t => t.genre))];
+                  const sortedGenres = uniqueGenres.sort((a, b) => a.localeCompare(b));
+                  return sortedGenres.map(g => (
+                  <li
+                    onClick={() => {
+                    const filtered = fullList.filter(t => t.genre === g);
+                    setTracks(filtered);
+                    setGenre(false);
+                    setTracksShow(true);
+                    }}
+                  >
+                    <h2>{g}</h2>
+                  </li>
+                  ));
+                })()}
+                </ul>
+              </div>
+              </Show>
+              <Show when={artist()}>
+              <div class="artist-section">
+              <h2 onClick={handleMenuClick}>&larr; Back</h2>
+                <ul>
+                {(() => {
+              const fullList = stringTracks() ? JSON.parse(stringTracks()) : [];
+              const uniqueArtists = Array.from(new Set(fullList.map(t => t.artist))).sort();
+              return uniqueArtists.map(a => (
+                <li
+                  onClick={() => {
+                    const filtered = fullList.filter(t => t.artist === a);
+                    setTracks(filtered);
+                    setArtist(false);
+                    setTracksShow(true);
+                  }}
+                >
+                  <h2>{a}</h2>
+                </li>
+              ));
+            })()}
           </ul>
         </div>
-      
-     <Show when={showPlayer()}> 
-      <div class="music-player">
-        <div class="album-art">
-          <p class="spacer"/>
-          { loading() ? <img src="/covers/pulsing_dot_loader.gif" alt="Album Cover" class="cov" /> : <img src={cover()} class="cov" alt="Album Cover" />}
-          <p class="spacer"/>
+      </Show>
+      <Show when={debugMode()}>
+        <div class="debug-section">
+          <ul>
+            <li onClick={handleMenuClick}><h3>&larr; Back</h3></li>
+          </ul>
+          <h2>Debug Info</h2>
+          <p>{stringTracks()}</p>
         </div>
-
-        <div class="song-info">
-          <h1 class="song-title">{songTitle()}</h1>
-          <h3 class="artist">{prefix()}{artist()}</h3>
-        </div>
-
-        <div class="controls">
-          <audio
-            ref={(el) => (audio = el)}
-            src={songSrc()}
-            onTimeUpdate={updateProgress}
-            autoPlay
-            onEnded={() => setPlaying(false)}
-          ></audio>
-
-          <div class="progress-container">
-            <input
-              type="range"
-              class="progress-bar"
-              value={progress()}
-              min="0"
-              max="100"
-              onInput={(e) => {
-                const seekTime = (e.target.value / 100) * audio.duration;
-                audio.currentTime = seekTime;
-              }}
-            />
-          </div>
-
-          <div class="player-buttons">
-            {playing() ? <button class="menbut" onClick={togglePlay}><img class="buttons" src="/buttons/pause-light.png"></img></button> : <button onClick={togglePlay}><img class="buttons" src="buttons/play-light.png"></img></button>}
-            <div id="menu">
-              <button class="menbut" onClick={() => {
-                setShowRadio(true);
-                setShowPlayer(false);
-                setRadioPlay(false);
-              }}>
-            <img class="buttons" src="buttons/Menu-Light.png"/>
-            </button>
-            </div>
-          </div>
-          
-     </div>
-     </div>
-     </Show>
-    </div>
+      </Show>
+      <Show when={settings()}>
+        <Settings MenuClick={handleMenuClick} Scan={scanMusic}/>
+      </Show>
+    </main>
   );
 }
 

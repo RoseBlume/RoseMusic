@@ -2,11 +2,11 @@
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Rosary-Music",
   "version": "2.1.1",
-  "identifier": "io.github.roseblume.rosarymusic",
+  "identifier": "io.github.roseblume.rosemusic",
   "build": {
     "beforeDevCommand": "yarn dev",
-    "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "yarn build",
+    "devUrl": "http://localhost:1430",
+    "beforeBuildCommand": "yarn  build",
     "frontendDist": "../dist"
   },
   "app": {

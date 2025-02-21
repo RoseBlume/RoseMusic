@@ -12,7 +12,7 @@ use rand::Rng; // Make sure to include the `rand` crate in your Cargo.toml
 pub async fn scan_music_files() -> serde_json::Value {
 
     let music_folder = get_music_folder();
-    let supported = ["mp3", "m4a", "wav"];
+    let supported = ["mp3", "m4a", "wav", "flac", "ogg"];
 
     let results = tokio::task::spawn_blocking(move || {
         let mut results = Vec::new();

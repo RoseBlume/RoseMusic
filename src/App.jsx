@@ -30,6 +30,7 @@ function App() {
   const [stopInterval, setStopInterval] = createSignal(false);
   const [debugMode, setDebugMode] = createSignal(false);
   const [settings, setSettings] = createSignal(false);
+  const [recurLevel, setRecurLevel] = createSignal(0);
 
   setStopInterval(true);
 
@@ -89,12 +90,15 @@ function App() {
     if (!trackList || trackList.length === 0) return;
     const currentIndex = trackList.findIndex(t => t.location === currentLocation());
     const nextIndex = currentIndex === -1 || currentIndex === trackList.length - 1 ? 0 : currentIndex + 1;
+    const prevIndex = currentIndex <= 0 ? trackList.length - 1 : currentIndex - 1;
     const next = trackList[nextIndex];
+    const prev = trackList[prevIndex];
     setCurrentLocation(next.location);
     setCurrentArtist(next.artist);
     setCurrentTitle(next.title);
     setCurrentGenre(next.genre);
     setCurrentDuration(next.duration);
+    setCurrentTime(next.duration)
     setCover(next.cover);
     start_track();
   }
@@ -104,12 +108,15 @@ function App() {
     const trackList = tracks();
     if (!trackList || trackList.length === 0) return;
     const currentIndex = trackList.findIndex(t => t.location === currentLocation());
+    const nextIndex = currentIndex === -1 || currentIndex === trackList.length - 1 ? 0 : currentIndex + 1;
     const prevIndex = currentIndex <= 0 ? trackList.length - 1 : currentIndex - 1;
     const prev = trackList[prevIndex];
+    const next = trackList[nextIndex];
     setCurrentLocation(prev.location);
     setCurrentArtist(prev.artist);
     setCurrentTitle(prev.title);
     setCurrentGenre(prev.genre);
+    setCurrentTime(prev.duration);
     setCover(prev.cover);
     start_track();
   }
@@ -133,11 +140,10 @@ function App() {
 
   const onSeek = async (time) => {
     await invoke("seek_to", {timeMs: time});
-    get_progress();
   };
 
   const handleInput = (event) => {
-    setCurrentTime(Number(event.target.value));
+    onSeek(Number(event.target.value));
   };
 
   const handleChange = (event) => {
@@ -158,11 +164,11 @@ function App() {
 
   async function get_duration() {
     const duration = await invoke("convert_to_milli", {seconds: currentDuration()});
-    // setCurrentDuration(duration);
   }
   async function main_loop() {
     const timer = setInterval(() => {
       get_progress();
+      get_duration();
       if (currrentProgress() >= currentDuration()) {
         next_track();
       }
@@ -198,6 +204,7 @@ function App() {
           </li>
           <li
             onClick={() => {
+              get_tracks();
               clear();
               setTracksShow(true);
             }}
@@ -238,10 +245,7 @@ function App() {
               </div>
               <div class="song-info">
               <h1 class="song-title">{currentTitle()}</h1>
-              <h2 class="artist">{currentArtist()}</h2>
-              <h3 class="genre">{currentGenre()}</h3>
-              <h3>Time: {currentTime()}</h3>
-              <h3>Duration: {currentDuration()}</h3>
+              <h2 class="artist">By {currentArtist()}</h2>
               </div>
               <div class="progress-bar">
                 <input

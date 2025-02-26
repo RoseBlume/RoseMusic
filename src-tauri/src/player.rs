@@ -111,6 +111,28 @@ pub fn is_song_playing() -> bool {
     }
 }
 
+#[tauri::command]
+pub async fn emit_song_progress(app: AppHandle) {
+    loop {
+        let mut song_ended = false;
+        // Check if song is finished playing
+        {
+            if let Some(ref player) = *PLAYER.lock().unwrap() {
+                song_ended = player.sink.empty();
+            }
+        }
+
+        if song_ended {
+            app.emit("song-ended", ()).unwrap();
+            end_song().unwrap();
+            break;
+        }
+
+        // Sleep for a short duration to prevent excessive CPU usage
+        tokio::time::sleep(Duration::from_millis(100)).await;
+    }
+}
+
 fn begin_song(location: &str) -> Result<(), Box<dyn std::error::Error>> {
     let player = Player::new(location)?;
     let mut current = PLAYER.lock().unwrap();

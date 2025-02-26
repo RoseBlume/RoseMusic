@@ -8,6 +8,17 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
+// This prevents crashes on startup for Android devices.
+#[cfg(target_os = "android")]
+#[link(name = "c++_shared")]
+extern "C" {}
+
+// This is untested.
+#[cfg(target_os = "ios")]
+#[link(name = "c++")]
+extern "C" {}
+
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -20,6 +31,7 @@ pub fn run() {
             player::get_song_duration,
             player::get_song_progress,
             player::seek_to,
+            player::emit_song_progress,
             scan::scan_music_files,
             scan::return_genres,
             logger::log,

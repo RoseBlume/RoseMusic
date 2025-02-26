@@ -31,14 +31,14 @@ function App() {
   const [debugMode, setDebugMode] = createSignal(false);
   const [settings, setSettings] = createSignal(false);
   const [recurLevel, setRecurLevel] = createSignal(0);
+  const [playlist, setPlaylist] = createSignal();
 
   setStopInterval(true);
 
   const scanMusic = async () => {
     setTracks(await invoke("scan_music_files"));
-    await invoke("save_music_data", {data: tracks()});
+    // await invoke("save_music_data", {data: tracks()});
   };
-
 
   async function get_progress() {
     const progress = await invoke("get_song_progress");
@@ -75,14 +75,7 @@ function App() {
       const status = await invoke("is_playing");
       setPlaying(status);
   }
-  async function start_timer() {
-    const interval = setInterval(() => {
-      get_progress();
-      if (currentTime() >= currentDuration()) {
-        next_track();
-      }
-    }, 1000);
-  }
+  
 
   async function next_track() {
     await invoke("stop");
@@ -90,9 +83,7 @@ function App() {
     if (!trackList || trackList.length === 0) return;
     const currentIndex = trackList.findIndex(t => t.location === currentLocation());
     const nextIndex = currentIndex === -1 || currentIndex === trackList.length - 1 ? 0 : currentIndex + 1;
-    const prevIndex = currentIndex <= 0 ? trackList.length - 1 : currentIndex - 1;
     const next = trackList[nextIndex];
-    const prev = trackList[prevIndex];
     setCurrentLocation(next.location);
     setCurrentArtist(next.artist);
     setCurrentTitle(next.title);
@@ -121,7 +112,7 @@ function App() {
     start_track();
   }
   async function get_tracks() {
-    // const tracksData = await invoke("scan_music_files");
+    //const tracksData = await invoke("scan_music_files");
     const tracksData = await invoke("get_scan_file");
     setTracks(tracksData);
     setStringTracks(JSON.stringify(tracksData));
@@ -135,7 +126,7 @@ function App() {
     setPlaying(true);
     setCurrentTime(0);
     setStopInterval(false);
-    start_timer();
+    main_loop();
   }
 
   const onSeek = async (time) => {
@@ -163,18 +154,22 @@ function App() {
   }
 
   async function get_duration() {
-    const duration = await invoke("convert_to_milli", {seconds: currentDuration()});
+    const duration = await invoke("get_song_duration");
   }
+  let timer;
+
   async function main_loop() {
-    const timer = setInterval(() => {
-      get_progress();
+    if (timer) {
+      clearInterval(timer);
+    }
+    timer = setInterval(() => {
       get_duration();
-      if (currrentProgress() >= currentDuration()) {
+      get_progress();
+      if (currentTime() >= currentDuration()) {
         next_track();
       }
     }, 100);
   }
-  main_loop();
   createEffect(() => {
     get_duration();
     get_progress();
@@ -204,9 +199,9 @@ function App() {
           </li>
           <li
             onClick={() => {
-              get_tracks();
               clear();
               setTracksShow(true);
+              setPlaylist(tracks());
             }}
           >
             <h2>Tracks</h2>
@@ -246,6 +241,8 @@ function App() {
               <div class="song-info">
               <h1 class="song-title">{currentTitle()}</h1>
               <h2 class="artist">By {currentArtist()}</h2>
+              <h3>Current Time: {currentTime()}</h3>
+              <h3>Duration: {currentDuration()}</h3>
               </div>
               <div class="progress-bar">
                 <input
@@ -288,7 +285,7 @@ function App() {
               <li onClick={() => handleMenuClick()}>
               <h2 onClick={handleMenuClick}>&larr; Back</h2>
               </li>
-              <Index each={[...(tracks() || [])].sort((a, b) => a.title.localeCompare(b.title))}>
+              <Index each={[...(playlist() || [])].sort((a, b) => a.title.localeCompare(b.title))}>
               {(track) => (
                 <li
                 onClick={() => {
@@ -298,7 +295,6 @@ function App() {
                   setCurrentGenre(track().genre);
                   setCurrentDuration(track().duration);
                   setCover(track().cover);
-                  get_duration();
                   setPlayer(true);
                   setMuse(true);
                   clear();
@@ -323,7 +319,7 @@ function App() {
                   <li
                     onClick={() => {
                     const filtered = fullList.filter(t => t.genre === g);
-                    setTracks(filtered);
+                    setPlaylist(filtered);
                     setGenre(false);
                     setTracksShow(true);
                     }}
@@ -346,7 +342,7 @@ function App() {
                 <li
                   onClick={() => {
                     const filtered = fullList.filter(t => t.artist === a);
-                    setTracks(filtered);
+                    setPlaylist(filtered);
                     setArtist(false);
                     setTracksShow(true);
                   }}

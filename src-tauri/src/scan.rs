@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 use std::env;
+use std::result::Result;
 use serde_json::json;
 use walkdir::WalkDir;
 use lofty;
@@ -8,6 +9,8 @@ use lofty::prelude::ItemKey;
 use tauri::{Emitter, AppHandle};
 use tokio;
 use rand::Rng; // Make sure to include the `rand` crate in your Cargo.toml
+
+
 #[tauri::command]
 pub async fn scan_music_files() -> serde_json::Value {
 
@@ -35,7 +38,7 @@ pub async fn scan_music_files() -> serde_json::Value {
                         Ok(tagged_file) => {
                             let primary = tagged_file.primary_tag();
                             let title = primary
-                                .and_then(|t| t.get_string(&lofty::prelude::ItemKey::TrackTitle))
+                                .and_then(|t| t.get_string(&lofty::prelude::ItemKey::TrackTitle).map(|s| s.trim()))
                                 .map(String::from)
                                 .or_else(|| {
                                     path.file_stem()
@@ -43,6 +46,10 @@ pub async fn scan_music_files() -> serde_json::Value {
                                         .map(String::from)
                                 })
                                 .unwrap_or_else(|| "Unknown Title".to_string());
+                            
+                            if title.trim().is_empty() {
+                                continue;
+                            }
 
                             let artist = primary
                                 .and_then(|t| t.get_string(&lofty::prelude::ItemKey::TrackArtist))
@@ -111,7 +118,7 @@ fn get_music_folder() -> PathBuf {
     // Android: Typically HOME might be set, or adjust if needed
     #[cfg(target_os = "android")]
     {
-        return PathBuf::from("/storage/emulated/0/Music");
+        return PathBuf::from("/Internal storage/Music");
     }
 
     // Linux: Use HOME and "Music"

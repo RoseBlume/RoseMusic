@@ -14,32 +14,42 @@ use crate::scan;
 /// it will be created using data from scan.rs.
 #[tauri::command]
 pub async fn get_scan_file() -> serde_json::Value {
-    let file_path = get_scan_file_path();
-
-    if !file_path.exists() {
-        // Run the scan to get music data.
-        let scan_data = scan::scan_music_files().await;
-
-        // Ensure the parent directory exists.
-        if let Some(parent) = file_path.parent() {
-            fs::create_dir_all(parent).expect("Failed to create directory");
-        }
-
-        // Write the JSON data to the file.
-        let data_string = serde_json::to_string_pretty(&scan_data)
-            .expect("Failed to serialize scan data");
-        let mut file = File::create(&file_path)
-            .expect("Failed to create scan file");
-        file.write_all(data_string.as_bytes())
-            .expect("Failed to write scan data");
+    #[cfg(target_os = "android")]
+    {
+        return scan::scan_music_files().await;
     }
 
-    // Read and parse the JSON data from file.
-    let data_string = fs::read_to_string(&file_path)
-        .expect("Failed to read scan file");
-    serde_json::from_str(&data_string)
-        .expect("Failed to parse scan file JSON")
+    #[cfg(not(target_os = "android"))]
+    {
+        let file_path = get_scan_file_path();
+
+        if !file_path.exists() {
+            // Run the scan to get music data.
+            let scan_data = scan::scan_music_files().await;
+
+            // Ensure the parent directory exists.
+            if let Some(parent) = file_path.parent() {
+                fs::create_dir_all(parent).expect("Failed to create directory");
+            }
+
+            // Write the JSON data to the file.
+            let data_string = serde_json::to_string_pretty(&scan_data)
+                .expect("Failed to serialize scan data");
+            let mut file = File::create(&file_path)
+                .expect("Failed to create scan file");
+            file.write_all(data_string.as_bytes())
+                .expect("Failed to write scan data");
+        }
+
+        // Read and parse the JSON data from file.
+        let data_string = fs::read_to_string(&file_path)
+            .expect("Failed to read scan file");
+        serde_json::from_str(&data_string)
+            .expect("Failed to parse scan file JSON")
+    }
 }
+
+
 
 /// Returns the local file system path for scan.json for each operating system.
 fn get_scan_file_path() -> PathBuf {
@@ -67,9 +77,15 @@ fn get_scan_file_path() -> PathBuf {
     }
     #[cfg(target_os = "android")]
     {
-        // On Android, use the external storage directory for the application.
-        let external_storage = env::var("EXTERNAL_STORAGE").expect("EXTERNAL_STORAGE is not set");
-        return PathBuf::from(external_storage).join("Android").join("data").join("io.github.roseblume.rosarymusic").join("files").join("scan.json");
+        // On Android, use the app's private directory
+        let private_dir = env::var("EXTERNAL_STORAGE").expect("EXTERNAL_STORAGE is not set");
+        return PathBuf::from(private_dir)
+            .join("Android")
+            .join("data")
+            .join("com.rosarymusic")
+            .join("files")
+            .join("scan.json");
+   
     }
     // Fallback for other OSes.
     #[allow(unreachable_code)]
@@ -110,3 +126,4 @@ pub fn confirm_path(path: &str) -> bool {
     PathBuf::from(path).exists()
 
 }
+

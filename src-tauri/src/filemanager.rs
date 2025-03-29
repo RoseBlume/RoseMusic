@@ -82,7 +82,7 @@ fn get_scan_file_path() -> PathBuf {
         return PathBuf::from(private_dir)
             .join("Android")
             .join("data")
-            .join("com.rosarymusic")
+            .join("io.github.roseblume.rosarymusic")
             .join("files")
             .join("scan.json");
    

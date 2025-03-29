@@ -118,7 +118,9 @@ fn get_music_folder() -> PathBuf {
     // Android: Typically HOME might be set, or adjust if needed
     #[cfg(target_os = "android")]
     {
-        return PathBuf::from("/Internal storage/Music");
+        // return PathBuf::from("/Internal storage/Music");
+        let home = env::var("HOME").expect("HOME is not set");
+        return PathBuf::from(home).join("Music");
     }
 
     // Linux: Use HOME and "Music"

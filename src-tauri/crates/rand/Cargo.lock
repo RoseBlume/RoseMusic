@@ -3,12 +3,5 @@
 version = 4
 
 [[package]]
-name = "meta"
-version = "0.1.0"
-dependencies = [
- "utils",
-]
-
-[[package]]
-name = "utils"
+name = "rand"
 version = "0.1.0"

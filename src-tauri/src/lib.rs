@@ -2,16 +2,15 @@ mod scan;
 mod player;
 mod logger;
 mod filemanager;
+
+
 // #[cfg(target_os = "android")]
 // mod android;
 
 // #[cfg(target_os = "android")]
 // use android::{android_has_all_files_access, android_request_all_files_access};
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+
 // This prevents crashes on startup for Android devices.
 #[cfg(target_os = "android")]
 #[link(name = "c++_shared")]
@@ -33,7 +32,6 @@ pub fn run() {
     // }
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            greet,
             player::play_song,
             player::toggle_playing,
             player::stop,
@@ -41,7 +39,7 @@ pub fn run() {
             player::get_song_duration,
             player::get_song_progress,
             player::seek_to,
-            player::emit_song_progress,
+            // player::emit_song_progress,
             scan::scan_music_files,
             scan::return_genres,
             logger::log,

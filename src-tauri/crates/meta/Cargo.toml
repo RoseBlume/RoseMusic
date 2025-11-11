@@ -5,3 +5,10 @@ edition = "2024"
 
 [dependencies]
 utils = {path = "../utils"}
+
+[profile.release]
+codegen-units = 1 # Allows LLVM to perform better optimization.
+lto = "fat" # Enables link-time-optimizations.
+opt-level = 3
+panic = "abort" # Higher performance by disabling panic handlers.
+strip = true # Ensures debug symbols are removed.

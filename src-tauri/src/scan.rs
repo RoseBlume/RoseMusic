@@ -1,5 +1,4 @@
 use std::path::PathBuf;
-use std::env;
 use std::result::Result;
 use serde_json::json;
 use walkdir::WalkDir;

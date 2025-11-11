@@ -35,7 +35,7 @@ function App() {
 
   setStopInterval(true);
 
-  const scanMusic = async () => {
+  async function scanMusic() {
     setTracks(await invoke("scan_music_files"));
     // await invoke("save_music_data", {data: tracks()});
   };
@@ -218,14 +218,6 @@ function App() {
             clear();
             setSettings(true);
           }}><h2>Settings</h2></li>
-          <li
-            onClick={() => {
-              clear();
-                setDebugMode(true);
-              }}
-              >
-              <h2>Debug</h2>
-              </li>
             </ul>
             </Show>
             <Show when={radio()}>

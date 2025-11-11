@@ -2,12 +2,16 @@ mod scan;
 mod player;
 mod logger;
 mod filemanager;
+// #[cfg(target_os = "android")]
+// mod android;
+
+// #[cfg(target_os = "android")]
+// use android::{android_has_all_files_access, android_request_all_files_access};
 
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
-
 // This prevents crashes on startup for Android devices.
 #[cfg(target_os = "android")]
 #[link(name = "c++_shared")]
@@ -21,6 +25,12 @@ extern "C" {}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // #[cfg(target_os = "android")] {
+    //     // Now you can call your functions
+    //     if !android_has_all_files_access() {
+    //         android_request_all_files_access();
+    //     }
+    // }
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             greet,
@@ -43,3 +53,6 @@ pub fn run() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
+
+
+

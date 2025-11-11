@@ -5,137 +5,151 @@ use serde_json::json;
 use walkdir::WalkDir;
 use lofty;
 use lofty::file::{AudioFile, TaggedFileExt};
-use lofty::prelude::ItemKey;
-use tauri::{Emitter, AppHandle};
-use tokio;
-use rand::Rng; // Make sure to include the `rand` crate in your Cargo.toml
+// use tauri::{Emitter, AppHandle};
+use std::sync::mpsc;
+use std::thread;
+use rand::RandomInt;
+use utils::{MUSIC_FOLDER_PATH};
 
 
 #[tauri::command]
-pub async fn scan_music_files() -> serde_json::Value {
+pub fn scan_music_files() -> serde_json::Value {
+    // let music_folder = *MUSIC_FOLDER_PATH;
+    let supported = ["mp3", "m4a", "wav", "flac"];
 
-    let music_folder = get_music_folder();
-    let supported = ["mp3", "m4a", "wav", "flac", "ogg"];
+    // Collect all file paths first
+    // println!("Scanning");
+    let files: Vec<PathBuf> = WalkDir::new(&*MUSIC_FOLDER_PATH)
+        .follow_links(true)
+        .into_iter()
+        .filter_map(Result::ok)
+        .filter(|e| e.file_type().is_file())
+        .map(|e| e.path().to_path_buf())
+        .collect();
 
-    let results = tokio::task::spawn_blocking(move || {
-        let mut results = Vec::new();
-        let possible_covers = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 15, 16, 17];
-        let mut rng = rand::thread_rng();
+    // Split files into chunks for processing
+    let block_size = 500;
+    let blocks: Vec<Vec<PathBuf>> = files
+        .chunks(block_size)
+        .map(|chunk| chunk.to_vec())
+        .collect();
 
-        for entry in walkdir::WalkDir::new(music_folder)
-            .into_iter()
-            .filter_map(Result::ok)
-            .filter(|e| e.file_type().is_file())
-        {
-            let path = entry.path();
-            if let Some(ext) = path
-                .extension()
-                .and_then(|s| s.to_str())
-                .map(|s| s.to_lowercase())
-            {
-                if supported.contains(&ext.as_str()) {
-                    let (title, artist, genre, duration) = match lofty::read_from_path(path) {
-                        Ok(tagged_file) => {
-                            let primary = tagged_file.primary_tag();
-                            let title = primary
-                                .and_then(|t| t.get_string(&lofty::prelude::ItemKey::TrackTitle).map(|s| s.trim()))
-                                .map(String::from)
-                                .or_else(|| {
-                                    path.file_stem()
-                                        .and_then(|s| s.to_str())
-                                        .map(String::from)
-                                })
-                                .unwrap_or_else(|| "Unknown Title".to_string());
-                            
-                            if title.trim().is_empty() {
-                                continue;
-                            }
+    // Determine how many threads to use
+    let max_threads: u8 = (num_cpus::get() / 4).max(1).try_into().unwrap();
 
-                            let artist = primary
-                                .and_then(|t| t.get_string(&lofty::prelude::ItemKey::TrackArtist))
-                                .map(String::from)
-                                .unwrap_or_else(|| "Unknown Artist".to_string());
+    // On Android, force single-thread mode
+    #[cfg(target_os = "android")]
+    {
+        let max_threads = 1;
+    }
+    let (tx, rx) = mpsc::channel();
 
-                            let genre = primary
-                                .and_then(|t| t.get_string(&lofty::prelude::ItemKey::Genre))
-                                .map(String::from)
-                                .unwrap_or_else(|| "Unknown Genre".to_string());
+    // Thread pool management
+    let mut handles: Vec<std::thread::JoinHandle<()>> = Vec::new();
+    let supported_ext = supported.map(|s| s.to_string());
 
-                            let duration = (tagged_file.properties().duration().as_millis()) as u64;
+    for (_i, block) in blocks.into_iter().enumerate() {
+        let tx = tx.clone();
+        let supported_ext = supported_ext.clone();
 
-                            (title, artist, genre, duration)
-                        }
-                        Err(_) => {
-                            let title = path
-                                .file_stem()
-                                .and_then(|s| s.to_str())
-                                .map(String::from)
-                                .unwrap_or_else(|| "Unknown Title".to_string());
-                            (title, "Unknown Artist".to_string(), "Unknown Genre".to_string(), 0)
-                        }
-                    };
-
-                    // Add cover image selection
-                    let random_index = rng.gen_range(0..possible_covers.len());
-                    let cover = format!("covers/{}.avif", possible_covers[random_index]);
-
-                    let item = serde_json::json!({
-                        "title": title,
-                        "artist": artist,
-                        "genre": genre,
-                        "duration": duration,
-                        "location": path.to_string_lossy(),
-                        "cover": cover
-                    });
-                    results.push(item);
-                }
+        // Limit concurrent threads
+        while handles.len() >= max_threads.into() {
+            if let Some(h) = handles.pop() {
+                let _ = h.join(); // Wait for a thread to finish before spawning another
             }
         }
 
-        results
-    })
-    .await
-    .unwrap();
+        let handle = thread::spawn(move || {
+            // let mut rng = rand::thread_rng();
+            let possible_covers = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 15, 16, 17];
+            let mut block_results = Vec::new();
+
+            for path in block {
+                if let Some(ext) = path
+                    .extension()
+                    .and_then(|s| s.to_str())
+                    .map(|s| s.to_lowercase())
+                {
+                    if supported_ext.contains(&ext) {
+                        let (title, artist, genre, duration) = match lofty::read_from_path(&path) {
+                            Ok(tagged_file) => {
+                                let primary = tagged_file.primary_tag();
+                                let title = primary
+                                    .and_then(|t| t.get_string(&lofty::prelude::ItemKey::TrackTitle).map(|s| s.trim()))
+                                    .map(String::from)
+                                    .or_else(|| {
+                                        path.file_stem()
+                                            .and_then(|s| s.to_str())
+                                            .map(String::from)
+                                    })
+                                    .unwrap_or_else(|| "Unknown Title".to_string());
+
+                                if title.trim().is_empty() {
+                                    continue;
+                                }
+
+                                let artist = primary
+                                    .and_then(|t| t.get_string(&lofty::prelude::ItemKey::TrackArtist))
+                                    .map(String::from)
+                                    .unwrap_or_else(|| "Unknown Artist".to_string());
+
+                                let genre = primary
+                                    .and_then(|t| t.get_string(&lofty::prelude::ItemKey::Genre))
+                                    .map(String::from)
+                                    .unwrap_or_else(|| "Unknown Genre".to_string());
+
+                                let duration = tagged_file.properties().duration().as_millis() as u64;
+
+                                (title, artist, genre, duration)
+                            }
+                            Err(_) => {
+                                let title = path
+                                    .file_stem()
+                                    .and_then(|s| s.to_str())
+                                    .map(String::from)
+                                    .unwrap_or_else(|| "Unknown Title".to_string());
+                                (title, "Unknown Artist".to_string(), "Unknown Genre".to_string(), 0)
+                            }
+                        };
+
+                        let random_index = RandomInt::new(0, (possible_covers.len() - 1).try_into().unwrap()) as usize;
+                        let cover = format!("covers/{}.avif", possible_covers[random_index]);
+
+                        let item = json!({
+                            "title": title,
+                            "artist": artist,
+                            "genre": genre,
+                            "duration": duration,
+                            "location": path.to_string_lossy(),
+                            "cover": cover
+                        });
+
+                        block_results.push(item);
+                    }
+                }
+            }
+
+            tx.send(block_results).ok();
+        });
+
+        handles.push(handle);
+    }
+
+    // Wait for remaining threads
+    for handle in handles {
+        let _ = handle.join();
+    }
+
+    drop(tx); // Close channel
+
+    // Collect all thread results
+    let results: Vec<_> = rx.into_iter().flatten().collect();
+    // list_all_music_files();
 
     serde_json::Value::Array(results)
 }
 
-fn get_music_folder() -> PathBuf {
-    // Windows: Use USERPROFILE and "Music"
-    #[cfg(target_os = "windows")]
-    {
-        let home = env::var("USERPROFILE").expect("USERPROFILE is not set");
-        return PathBuf::from(home).join("Music");
-    }
 
-    // macOS and iOS: Use HOME and "Music"
-    #[cfg(any(target_os = "macos", target_os = "ios"))]
-    {
-        let home = env::var("HOME").expect("HOME is not set");
-        return PathBuf::from(home).join("Music");
-    }
-
-    // Android: Typically HOME might be set, or adjust if needed
-    #[cfg(target_os = "android")]
-    {
-        // return PathBuf::from("/Internal storage/Music");
-        let home = env::var("HOME").expect("HOME is not set");
-        return PathBuf::from(home).join("Music");
-    }
-
-    // Linux: Use HOME and "Music"
-    #[cfg(target_os = "linux")]
-    {
-        let home = env::var("HOME").expect("HOME is not set");
-        return PathBuf::from(home).join("Music");
-    }
-
-    // Fallback
-    #[allow(unreachable_code)]
-    {
-        PathBuf::new()
-    }
-}
 
 
 #[tauri::command]
@@ -148,3 +162,5 @@ pub fn return_genres(music: serde_json::Value) {
         }
     }
 }
+
+

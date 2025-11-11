@@ -7,3 +7,5 @@
 /gen/
 
 note.md
+
+crates/*/target

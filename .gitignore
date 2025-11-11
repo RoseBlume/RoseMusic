@@ -13,3 +13,4 @@ control.tar.gz
 data.tar.gz
 debian-binary
 permlist.txt
+/crates

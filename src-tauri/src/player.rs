@@ -1,17 +1,24 @@
-use rodio::{Decoder, OutputStream, OutputStreamHandle, Sink, Source};
-use rodio::source;
+use rodio::{
+    Decoder,
+    stream::OutputStream, 
+    OutputStreamBuilder, 
+    Sink, 
+    Source
+};
 use std::fs::File;
 use std::io::BufReader;
-use std::sync::Mutex;
+use std::sync::{Mutex, Arc};
 use std::error::Error;
-use once_cell::sync::Lazy;
 use std::time::{Duration, Instant};
+use std::sync::atomic::{AtomicBool, Ordering};
 use tauri::{Emitter, AppHandle};
+use once_cell::sync::Lazy;
+use std::thread;
 
 struct Player {
     // Keep the stream alive for sink playback
     _stream: OutputStream,
-    stream_handle: OutputStreamHandle,
+    stream_handle: OutputStream,
     sink: Sink,
     start_time: Instant,
     paused_time: Option<Instant>,
@@ -22,13 +29,25 @@ struct Player {
 
 impl Player {
     fn new(location: &str) -> Result<Self, Box<dyn Error>> {
-        let (_stream, stream_handle) = OutputStream::try_default()?;
-        let sink = Sink::try_new(&stream_handle)?;
+        
+        let _stream = OutputStreamBuilder::open_default_stream()?;
+        let stream_handle = OutputStreamBuilder::open_default_stream()?;
+        let sink = Sink::connect_new(&stream_handle.mixer());
         let file = File::open(location)?;
         let source = Decoder::new(BufReader::new(file))?;
-        let start_time = Instant::now();
         let duration = source.total_duration();
-        sink.append(source);
+        let agc_source = source.automatic_gain_control(1.0, 4.0, 0.0, 5.0);
+        let agc_enabled = Arc::new(AtomicBool::new(true));
+        let agc_enabled_clone = agc_enabled.clone();
+        let controlled = agc_source.periodic_access(Duration::from_millis(5), move |agc_source| {
+            agc_source.set_enabled(agc_enabled_clone.load(Ordering::Relaxed));
+        });
+        
+        let start_time = Instant::now();
+        
+        // sink.append(source);
+        sink.append(controlled);
+
         Ok(Player {
             _stream,
             stream_handle,
@@ -76,14 +95,13 @@ impl Player {
     
 }
 
-// Global player instance wrapped in a Mutex
 static PLAYER: Lazy<Mutex<Option<Player>>> = Lazy::new(|| Mutex::new(None));
 
 /// Plays a song from the given file location.
 /// This function creates a new player instance and starts playing the song.
 #[tauri::command]
 pub fn play_song(location: &str) {
-    begin_song(location);
+    begin_song(location).expect("Failed to play song");
 }
 
 /// Toggles between pausing and resuming the current song.
@@ -129,7 +147,7 @@ pub async fn emit_song_progress(app: AppHandle) {
         }
 
         // Sleep for a short duration to prevent excessive CPU usage
-        tokio::time::sleep(Duration::from_millis(100)).await;
+        thread::sleep(Duration::from_millis(100));
     }
 }
 
@@ -182,7 +200,7 @@ pub fn seek(time_ms: u64) -> Result<(), Box<dyn Error>> {
         player.sink.stop();
         let file = File::open(&player.file_location)?;
         let source = Decoder::new(BufReader::new(file))?.skip_duration(skip);
-        let new_sink = Sink::try_new(&player.stream_handle)?;
+        let new_sink = Sink::connect_new(&player.stream_handle.mixer());
         new_sink.append(source);
         player.sink = new_sink;
         player.start_time = Instant::now() - skip;

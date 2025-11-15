@@ -2,7 +2,7 @@
 
 use std::thread;
 
-use utils::scan_music;
+use utils::get_scan_file;
 use tauri::{AppHandle, Emitter};
 use serde_json::Value;
 use serde::Serialize;
@@ -17,7 +17,7 @@ struct FinishedSearching {
 pub fn scan_music_files(app: AppHandle) {
     println!("Updating Data");
     thread::spawn(move || {
-        let obj = scan_music();
+        let obj = get_scan_file();
         println!("Finished Searching");
         app.emit("finished-searching", FinishedSearching { obj }).unwrap();
     });

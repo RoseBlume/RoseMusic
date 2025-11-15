@@ -16,8 +16,12 @@ jobs:
         include:
           - platform: 'ubuntu-latest'
             args: '--target x86_64-unknown-linux-gnu'
-          - platform: 'windows-latest'
+          - platform: 'ubuntu-24.04-arm'
             args: ''
+          - platform: 'windows-latest'
+            args: '--bundles msi'
+          - platform: 'windows-11-arm'
+            args: '--bundles msi'
 
     runs-on: ${{ matrix.platform }}
     steps:

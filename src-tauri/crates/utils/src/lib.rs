@@ -4,6 +4,8 @@ use std::fs;
 use std::path::Path;
 use meta::SongMetadata;
 use rand::RandomInt;
+use std::fs::File;
+use std::io::Write;
 
 #[cfg(target_os = "windows")]
 pub static USERNAME: LazyLock<String> = LazyLock::new(|| {
@@ -108,7 +110,7 @@ pub fn is_roman_alphabet(s: String) -> bool {
         c.is_ascii_punctuation()
     })
 }
-pub fn scan_music() -> serde_json::Value {
+fn scan_music() -> serde_json::Value {
     let music_files: Vec<PathBuf> = collect_music_files();
     let mut file_string: String;
     let mut entries: Vec<serde_json::Value> = Vec::new();
@@ -159,4 +161,35 @@ pub fn scan_music() -> serde_json::Value {
 
     }
     serde_json::Value::Array(entries)
+}
+
+
+pub fn get_scan_file() -> serde_json::Value {
+ 
+    let file_path = PathBuf::from(&*SCANFILE_PATH);
+
+    if !file_path.exists() {
+        // Run the scan to get music data.
+        let scan_data = scan_music();
+
+        // // Ensure the parent directory exists.
+        if let Some(parent) = file_path.parent() {
+            fs::create_dir_all(parent).expect("Failed to create directory");
+        }
+
+        // // Write the JSON data to the file.
+        let data_string = serde_json::to_string_pretty(&scan_data)
+            .expect("Failed to serialize scan data");
+        let mut file = File::create(&file_path)
+            .expect("Failed to create scan file");
+        file.write_all(data_string.as_bytes())
+            .expect("Failed to write scan data");
+    }
+
+    // Read and parse the JSON data from file.
+    let data_string = fs::read_to_string(&file_path)
+        .expect("Failed to read scan file");
+    serde_json::from_str(&data_string)
+        .expect("Failed to parse scan file JSON")
+    
 }

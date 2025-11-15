@@ -1,3 +1,6 @@
+mod helpers;
+
+use helpers::{trim_id3v1_text, synchsafe_to_u32, decode_text_frame, parse_vorbis_comments, extract_m4a_text };
 use std::fs::File;
 use std::io::{self, Read, Seek, SeekFrom};
 use std::path::Path;
@@ -334,11 +337,11 @@ impl SongMetadata {
 
                 // total samples: 36 bits (last 4 bits of data[12] and data[13..17])
                 let total_samples =
-                    (((data[12] as u64 & 0x0F) << 32)
+                    ((data[12] as u64 & 0x0F) << 32)
                         | ((data[13] as u64) << 24)
                         | ((data[14] as u64) << 16)
                         | ((data[15] as u64) << 8)
-                        | (data[16] as u64));
+                        | (data[16] as u64);
 
                 if sample_rate == 0 {
                     return Err(io::Error::new(io::ErrorKind::InvalidData, "Invalid sample rate"));
@@ -443,7 +446,6 @@ impl SongMetadata {
 
         let mut total_samples: u128 = 0;
         let mut last_sample_rate: u32 = 0;
-        let mut frames_parsed: u64 = 0;
 
         // To avoid pathological loops, set a max iterations proportional to file size.
         let max_iterations = all.len() * 2;
@@ -467,7 +469,7 @@ impl SongMetadata {
                 let sample_rate_index = (header[2] >> 2) & 0x03;
                 let padding = ((header[2] >> 1) & 0x01) as u32;
                 // channel mode (for Xing offset heuristics if needed)
-                let channel_mode = (header[3] >> 6) & 0x03;
+                // let channel_mode = (header[3] >> 6) & 0x03;
 
                 // determine MPEG version
                 // 00 -> MPEG 2.5, 01 -> reserved, 10 -> MPEG2, 11 -> MPEG1
@@ -570,8 +572,6 @@ impl SongMetadata {
                 // accumulate
                 total_samples += samples_per_frame as u128;
                 last_sample_rate = sample_rate;
-                frames_parsed += 1;
-
                 // advance by frame_size
                 pos += frame_size;
             } else {
@@ -604,77 +604,4 @@ impl SongMetadata {
     }
 }
 
-// --- Shared helpers ---
-fn trim_id3v1_text(b: &[u8]) -> Option<String> {
-    let binding = String::from_utf8_lossy(b);
-    let s = binding.trim_end_matches('\u{0}').trim();
-    if s.is_empty() { None } else { Some(s.to_string()) }
-}
 
-fn synchsafe_to_u32(bytes: &[u8]) -> u32 {
-    ((bytes[0] as u32 & 0x7F) << 21)
-        | ((bytes[1] as u32 & 0x7F) << 14)
-        | ((bytes[2] as u32 & 0x7F) << 7)
-        | (bytes[3] as u32 & 0x7F)
-}
-
-fn decode_text_frame(data: &[u8]) -> Option<String> {
-    if data.is_empty() { return None; }
-    match data[0] {
-        0 => Some(String::from_utf8_lossy(&data[1..]).trim_matches(char::from(0)).to_string()),
-        1 => {
-            let utf16: Vec<u16> = data[1..]
-                .chunks(2)
-                .filter_map(|b| if b.len() == 2 { Some(u16::from_be_bytes([b[0], b[1]])) } else { None })
-                .collect();
-            Some(String::from_utf16_lossy(&utf16).trim_matches(char::from(0)).to_string())
-        }
-        _ => None,
-    }
-}
-
-fn parse_vorbis_comments(meta: &mut SongMetadata, data: &[u8]) {
-    if data.len() < 8 { return; }
-    let vendor_len = u32::from_le_bytes(data[0..4].try_into().unwrap()) as usize;
-    let mut idx = 4 + vendor_len;
-    if idx + 4 > data.len() { return; }
-    let count = u32::from_le_bytes(data[idx..idx + 4].try_into().unwrap()) as usize;
-    idx += 4;
-    for _ in 0..count {
-        if idx + 4 > data.len() { break; }
-        let len = u32::from_le_bytes(data[idx..idx + 4].try_into().unwrap()) as usize;
-        idx += 4;
-        if idx + len > data.len() { break; }
-        if let Ok(s) = String::from_utf8(data[idx..idx + len].to_vec()) {
-            let parts: Vec<_> = s.splitn(2, '=').collect();
-            if parts.len() == 2 {
-                match parts[0].to_ascii_lowercase().as_str() {
-                    "artist" => meta.artist = Some(parts[1].to_string()),
-                    "title" => meta.title = Some(parts[1].to_string()),
-                    "album" => meta.album = Some(parts[1].to_string()),
-                    "genre" => meta.genre = Some(parts[1].to_string()),
-                    _ => {}
-                }
-            }
-        }
-        idx += len;
-    }
-}
-
-fn extract_m4a_text(data: &[u8]) -> Option<String> {
-    let mut i = 0;
-    while i + 8 <= data.len() {
-        let size = u32::from_be_bytes(data[i..i + 4].try_into().unwrap()) as usize;
-        if size < 8 || i + size > data.len() {
-            break;
-        }
-        if &data[i + 4..i + 8] == b"data" {
-            // skip possible data header: often 8 (data header) + 8 (meta) => text starts at i+16
-            let start = if i + 16 <= i + size { i + 16 } else { i + 8 };
-            let text = String::from_utf8_lossy(&data[start..i + size]);
-            return Some(text.trim_matches(char::from(0)).to_string());
-        }
-        i += size;
-    }
-    None
-}

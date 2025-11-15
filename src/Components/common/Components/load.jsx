@@ -1,5 +1,5 @@
 import { createSignal, onCleanup } from "solid-js";
-import { loading } from "../funcs";
+import { loading } from "../signals";
 export function LoadingAnimation() {
   const [dots, setDots] = createSignal("");
 

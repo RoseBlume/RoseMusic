@@ -1,7 +1,6 @@
 mod scan;
 mod player;
 mod logger;
-// mod filemanager;
 
 
 // #[cfg(target_os = "android")]
@@ -42,7 +41,7 @@ pub fn run() {
             // player::emit_song_progress,
             scan::scan_music_files,
             scan::return_genres,
-            logger::log,
+            logger::log
             // filemanager::get_scan_file,
             // filemanager::save_music_data,
             // filemanager::confirm_path

@@ -1,6 +1,6 @@
 [package]
 name = "rosary-music"
-version = "1.0.0"
+version = "3.0.0"
 description = "A Tauri App"
 authors = ["you"]
 edition = "2021"
@@ -22,8 +22,7 @@ tauri = { version = "2", default-features = false, features = ["wry", "compressi
 serde = { version = "1", default-features = false }
 serde_json = {version = "1", default-features = false}
 rodio = {version = "0.21.1", default-features = false, features = ["symphonia-flac", "symphonia-isomp4", "symphonia-aac", "symphonia-mp3", "symphonia-wav", "playback"] }
-utils = { path="./crates/utils"}
-# meta = { path="./crates/meta" }
+utils = { git="https://github.com/RoseBlume/common-rust-modules"}
 once_cell = {version = "1.21.3", default-features = false}
 
 [profile.dev]

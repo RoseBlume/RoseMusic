@@ -58,6 +58,7 @@ parts:
     stage-packages:
       - libwebkit2gtk-4.1-0
       - libayatana-appindicator3-1
+      - alsa
     source: https://github.com/RoseBlume/RoseMusic.git
     override-build: |
       set -eu

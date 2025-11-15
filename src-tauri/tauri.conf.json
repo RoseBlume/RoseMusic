@@ -13,6 +13,7 @@
     "windows": [
       {
         "title": "Rosary Music",
+        "label": "main",
         "maximized": true
       }
     ],

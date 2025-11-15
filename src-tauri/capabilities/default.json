@@ -1,0 +1,14 @@
+{
+  "identifier": "main",
+  "description": "Standard Capabilities",
+  "local": true,
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:event:default",
+    "core:default",
+    "core:event:allow-emit",
+    "core:event:allow-listen"
+  ]
+}

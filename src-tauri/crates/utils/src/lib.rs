@@ -140,6 +140,7 @@ pub fn scan_music() -> serde_json::Value {
             Some(ref n) if is_roman_alphabet(n.to_string()) => n.clone().to_string(),
             _ => "Unknown Genre".to_string(),
         };
+        let duration = metadata.duration_ms.expect("Failed to get metadata");
         let possible_covers = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 15, 16, 17];
         let random_index = RandomInt::new(0, (possible_covers.len() - 1).try_into().unwrap()) as usize;
         let entry = serde_json::json!({
@@ -148,6 +149,7 @@ pub fn scan_music() -> serde_json::Value {
             "album": album,
             "title": title,
             "genre": genre,
+            "duration": duration,
             "cover":  format!("covers/{}.avif", possible_covers[random_index]),
         });
         

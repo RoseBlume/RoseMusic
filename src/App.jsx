@@ -7,6 +7,8 @@ import { Radio } from "./Radio";
 import { listen } from '@tauri-apps/api/event';
 import { Settings } from "./Components/settings";
 import { ProgressBar } from "./Components/ProgressBar";
+import { LoadingAnimation } from "./Components/load";
+import { setLoading } from "./funcs";
 function App() {
   const [home, setHome] = createSignal(true);
   const [tracksShow, setTracksShow] = createSignal(false);
@@ -28,17 +30,20 @@ function App() {
   const [currentDuration, setCurrentDuration] = createSignal(0);
   const [currentTime, setCurrentTime] = createSignal(0);
   const [stopInterval, setStopInterval] = createSignal(false);
-  const [debugMode, setDebugMode] = createSignal(false);
   const [settings, setSettings] = createSignal(false);
+  const [settingsMenu] = createSignal(false);
   const [recurLevel, setRecurLevel] = createSignal(0);
   const [playlist, setPlaylist] = createSignal();
+  const [debugMode, setDebugMode] = createSignal(false);
 
   setStopInterval(true);
 
   async function scanMusic() {
-    setTracks(await invoke("scan_music_files"));
+    await invoke("scan_music_files");
     // await invoke("save_music_data", {data: tracks()});
   };
+  scanMusic();
+  
 
   async function get_progress() {
     const progress = await invoke("get_song_progress");
@@ -71,11 +76,24 @@ function App() {
     toggle_play();
   };
 
-  async function check_playing() {
-      const status = await invoke("is_playing");
-      setPlaying(status);
-  }
   
+  async function finishSearch(object) {
+    console.log(`downloading`, object);
+
+    // Update signals
+    setTracks(object);
+
+    // Create string directly from the new object
+    const jsonString = JSON.stringify(object, null, 2);
+    setStringTracks(jsonString);
+    setLoading(false);
+    // Log immediately using the fresh value
+    console.log(jsonString);
+  }
+
+  listen('finished-searching', (event) => {
+    finishSearch(event.payload.obj);
+  });
 
   async function next_track() {
     await invoke("stop");
@@ -111,13 +129,6 @@ function App() {
     setCover(prev.cover);
     start_track();
   }
-  async function get_tracks() {
-    //const tracksData = await invoke("scan_music_files");
-    const tracksData = await invoke("get_scan_file");
-    setTracks(tracksData);
-    setStringTracks(JSON.stringify(tracksData));
-  }
-  get_tracks();
   async function get_genres() {
 
   }
@@ -173,7 +184,6 @@ function App() {
   createEffect(() => {
     get_duration();
     get_progress();
-    check_playing();
   }
   );
 
@@ -214,10 +224,14 @@ function App() {
           >
             <h2>Radio</h2>
           </li>
-          <li onClick={() => {
-            clear();
-            setSettings(true);
-          }}><h2>Settings</h2></li>
+          <Show when={settingsMenu()}>
+            <li onClick={() => {
+              clear();
+              setSettings(true);
+            }}>
+              <h2>Settings</h2>
+            </li>
+          </Show>
             </ul>
             </Show>
             <Show when={radio()}>
@@ -273,31 +287,32 @@ function App() {
             </div>
             </Show>
             <Show when={tracksShow()}>
-            <ul>
-              <li onClick={() => handleMenuClick()}>
-              <h2 onClick={handleMenuClick}>&larr; Back</h2>
-              </li>
-              <Index each={[...(playlist() || [])].sort((a, b) => a.title.localeCompare(b.title))}>
-              {(track) => (
-                <li
-                onClick={() => {
-                  setCurrentLocation(track().location);
-                  setCurrentArtist(track().artist);
-                  setCurrentTitle(track().title);
-                  setCurrentGenre(track().genre);
-                  setCurrentDuration(track().duration);
-                  setCover(track().cover);
-                  setPlayer(true);
-                  setMuse(true);
-                  clear();
-                  start_track();
-                }}
-                >
-                <h2>{track().title}</h2>
+              <LoadingAnimation />
+              <ul>
+                <li onClick={() => handleMenuClick()}>
+                <h2 onClick={handleMenuClick}>&larr; Back</h2>
                 </li>
-              )}
-              </Index>
-            </ul>
+                <Index each={[...(playlist() || [])].sort((a, b) => a.title.localeCompare(b.title))}>
+                {(track) => (
+                  <li
+                  onClick={() => {
+                    setCurrentLocation(track().location);
+                    setCurrentArtist(track().artist);
+                    setCurrentTitle(track().title);
+                    setCurrentGenre(track().genre);
+                    setCurrentDuration(track().duration);
+                    setCover(track().cover);
+                    setPlayer(true);
+                    setMuse(true);
+                    clear();
+                    start_track();
+                  }}
+                  >
+                  <h2>{track().title}</h2>
+                  </li>
+                )}
+                </Index>
+              </ul>
             </Show>
             <Show when={genre()}>
             <h2 onClick={handleMenuClick}>&larr; Back</h2>
@@ -348,9 +363,6 @@ function App() {
       </Show>
       <Show when={debugMode()}>
         <div class="debug-section">
-          <ul>
-            <li onClick={handleMenuClick}><h3>&larr; Back</h3></li>
-          </ul>
           <h2>Debug Info</h2>
           <p>{stringTracks()}</p>
         </div>

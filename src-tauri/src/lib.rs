@@ -1,7 +1,7 @@
 mod scan;
 mod player;
 mod logger;
-mod filemanager;
+// mod filemanager;
 
 
 // #[cfg(target_os = "android")]
@@ -43,9 +43,9 @@ pub fn run() {
             scan::scan_music_files,
             scan::return_genres,
             logger::log,
-            filemanager::get_scan_file,
-            filemanager::save_music_data,
-            filemanager::confirm_path
+            // filemanager::get_scan_file,
+            // filemanager::save_music_data,
+            // filemanager::confirm_path
 
         ])
         .run(tauri::generate_context!())

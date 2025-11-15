@@ -12,18 +12,19 @@ use utils::{SCANFILE_PATH};
 /// it will be created using data from scan.rs.
 #[tauri::command]
 pub fn get_scan_file() -> serde_json::Value {
+ 
     let file_path = PathBuf::from(&*SCANFILE_PATH);
 
     if !file_path.exists() {
         // Run the scan to get music data.
-        let scan_data = scan::scan_music_files();
+        // let scan_data = scan::scan_music_files();
 
-        // Ensure the parent directory exists.
+        // // Ensure the parent directory exists.
         if let Some(parent) = file_path.parent() {
             fs::create_dir_all(parent).expect("Failed to create directory");
         }
 
-        // Write the JSON data to the file.
+        // // Write the JSON data to the file.
         let data_string = serde_json::to_string_pretty(&scan_data)
             .expect("Failed to serialize scan data");
         let mut file = File::create(&file_path)
@@ -37,6 +38,7 @@ pub fn get_scan_file() -> serde_json::Value {
         .expect("Failed to read scan file");
     serde_json::from_str(&data_string)
         .expect("Failed to parse scan file JSON")
+    
 }
 
 

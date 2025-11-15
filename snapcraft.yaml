@@ -52,6 +52,8 @@ parts:
       - libayatana-appindicator3-dev
       - librsvg2-dev
       - dpkg
+      - alsa 
+      - librust-alsa-dev
     #  - npm
     stage-packages:
       - libwebkit2gtk-4.1-0

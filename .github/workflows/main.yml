@@ -17,8 +17,8 @@ jobs:
             args: ''
           - platform: 'windows-latest'
             args: '--bundles msi'
-          - platform: 'windows-11-arm'
-            args: '--bundles msi'
+          # - platform: 'windows-11-arm'
+          #   args: '--bundles msi'
 
     runs-on: ${{ matrix.platform }}
     steps:

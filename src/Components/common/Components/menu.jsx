@@ -1,8 +1,7 @@
-import { Show, createSignal } from "solid-js";
-import { setArtist, setGenre, setPlaylist, setTracksShow, home, setSettings, setRadio, settingsMenu, tracks } from "../common/signals";
-import { clear } from "../common/funcs";
-import "../../styles/App.css";
-export function Settings() {
+import { Show } from "solid-js";
+import { setArtist, setGenre, setPlaylist, setTracksShow, home, setSettings, setRadio, settingsMenu, tracks } from "../signals";
+import { clear } from "../funcs";
+export function Menu() {
   return (
     <Show when={home()}>
             <ul>

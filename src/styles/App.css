@@ -26,6 +26,16 @@ li {
 li:hover {
   background-color: #e3e2e2;
 }
+
+.Back {
+  list-style-type: none;
+  padding-top:10px;
+  padding-bottom:10px;
+  overflow:visible;
+}
+.Back:hover {
+  background-color: #e3e2e2;
+}
 .player-buttons button {
   background-color: #f6f6f6;
   border: none;
@@ -49,6 +59,9 @@ button {
     background-color: #282828;
   }
   li:hover {
+    background-color: #282828;
+  }
+  .Back:hover {
     background-color: #282828;
   }
   .player-buttons button {
@@ -134,4 +147,31 @@ button {
 .progress-bar {
   width: 100%;
   cursor: pointer;
+}
+
+
+.ghostbar-container {
+    width: 90vw;
+    height: 30px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    overflow: hidden;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.ghostbar-fill {
+    height: 100%;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    transition: width 0.3s ease;
+}
+
+LoadingAnimation {
+    text-align: center;
 }

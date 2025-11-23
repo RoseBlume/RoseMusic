@@ -52,13 +52,14 @@ parts:
       - libayatana-appindicator3-dev
       - librsvg2-dev
       - dpkg
-      - alsa 
-      - librust-alsa-dev
+      - alsa
+      - libasound2-dev
     #  - npm
     stage-packages:
       - libwebkit2gtk-4.1-0
       - libayatana-appindicator3-1
       - alsa
+      - libasound2
     source: https://github.com/RoseBlume/RoseMusic.git
     override-build: |
       set -eu

@@ -2,8 +2,8 @@
 name = "rosary-music"
 version = "3.0.0"
 description = "A Tauri App"
-authors = ["you"]
-edition = "2021"
+authors = ["James A. Rose"]
+edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -22,8 +22,12 @@ tauri = { version = "2", default-features = false, features = ["wry", "compressi
 serde = { version = "1", default-features = false }
 serde_json = {version = "1", default-features = false}
 rodio = {version = "0.21.1", default-features = false, features = ["symphonia-flac", "symphonia-isomp4", "symphonia-aac", "symphonia-mp3", "symphonia-wav", "playback"] }
-utils = { git="https://github.com/RoseBlume/common-rust-modules"}
 once_cell = {version = "1.21.3", default-features = false}
+utils = { path = "./crates/utils", default-features = false, features = ["rosary"] }
+remeta = { version = "1.2.0", default-features = false, features = ["id3v1", "id3v2", "m4a", "wav", "flac"] }
+# remeta = { path = "../../crates/remeta", default-features = false, features = ["id3v1", "id3v2", "m4a", "wav", "flac"] }
+rand = { path= "./crates/rand", default-features = false, features = ["ints", "num-u32"] }
+
 
 [profile.dev]
 incremental = true # Compile your binary in smaller steps.

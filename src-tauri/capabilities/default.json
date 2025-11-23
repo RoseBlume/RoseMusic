@@ -3,7 +3,8 @@
   "description": "Standard Capabilities",
   "local": true,
   "windows": [
-    "main"
+    "main",
+    "splashscreen"
   ],
   "permissions": [
     "core:event:default",

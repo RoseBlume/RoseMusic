@@ -2896,7 +2896,7 @@ dependencies = [
 
 [[package]]
 name = "rosary-music"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "once_cell",
  "rand 0.1.0",

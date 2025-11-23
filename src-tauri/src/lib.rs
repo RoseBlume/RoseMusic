@@ -4,8 +4,7 @@ mod logger;
 
 use tauri::{AppHandle, Manager, WindowEvent};
 #[cfg(all(
-    any(target_os = "windows", target_os = "macos", target_os = "linux"),
-    not(debug_assertions)
+    any(target_os = "windows", target_os = "macos", target_os = "linux")
 ))]
 use tauri::{UserAttentionType::Informational};
 use std::thread;
@@ -73,8 +72,7 @@ pub fn run() {
 fn initialize_windows(app: &AppHandle) {
     let splash_window = app.get_webview_window("splashscreen").unwrap();
     #[cfg(all(
-        any(target_os = "windows", target_os = "macos", target_os = "linux"),
-        not(debug_assertions)
+        any(target_os = "windows", target_os = "macos", target_os = "linux")
     ))]
     let main_window = app.get_webview_window("main").unwrap();
     main_window.on_window_event(|event| {
